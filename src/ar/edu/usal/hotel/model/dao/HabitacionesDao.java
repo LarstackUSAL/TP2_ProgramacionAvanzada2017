@@ -10,14 +10,28 @@ import ar.edu.usal.hotel.model.dto.PreciosDto;
 
 public class HabitacionesDao {
 	
-	private HabitacionesDto[] habitaciones;
+	public static final int MAX_HABITACIONES = 150;
 	
-	public HabitacionesDao(){
+	private static HabitacionesDao habitacionesDaoInstance = null;
+	
+	private HabitacionesDto[] habitaciones = new HabitacionesDto[MAX_HABITACIONES];
+	
+	private HabitacionesDao(){
 		
-		this.habitaciones = new HabitacionesDto[150];
+		this.loadHabitaciones();
 	}
 	
-	public void loadHabitaciones(){
+	public static HabitacionesDao getInstance(){
+		
+		if(habitacionesDaoInstance==null){
+			
+			habitacionesDaoInstance = new HabitacionesDao();
+		}
+		
+		return habitacionesDaoInstance;
+	}
+	
+	private void loadHabitaciones(){
 		
 		File habitacionesTxt = new File("./archivos/HABITACIONES.txt");
 		Scanner habitacionesScanner;

@@ -1,6 +1,7 @@
 package ar.edu.usal.hotel.utils;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -407,5 +408,24 @@ public class Validador {
 		Date fechaDate = fecha.getTime();
 		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		return formatter.format(fechaDate);
+	}
+	
+	public static Calendar stringToCalendar(String fecha) {
+		
+		Calendar calendar = Calendar.getInstance();
+		
+		try {
+
+			SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+			Date date;
+			date = format.parse(fecha);
+			calendar.setTime(date);
+			
+		} catch (ParseException e) {
+			
+			System.out.println("Se ha verificado un error con el parsing de la fecha.");
+		}
+		
+		return calendar;		
 	}
 }
