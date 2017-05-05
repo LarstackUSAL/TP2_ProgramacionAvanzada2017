@@ -14,10 +14,11 @@ public class HabitacionesDao {
 	
 	private static HabitacionesDao habitacionesDaoInstance = null;
 	
-	private HabitacionesDto[] habitaciones = new HabitacionesDto[MAX_HABITACIONES];
+	private HabitacionesDto[] habitaciones;
 	
 	private HabitacionesDao(){
 		
+		this.habitaciones = new HabitacionesDto[MAX_HABITACIONES];
 		this.loadHabitaciones();
 	}
 	

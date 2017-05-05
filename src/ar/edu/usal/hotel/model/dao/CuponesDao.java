@@ -14,12 +14,25 @@ public class CuponesDao {
 
 	private ArrayList<CuponesDto> cupones;
 
-	public CuponesDao(){
+	private static CuponesDao cuponesDaoInstance = null;
+	
+	private CuponesDao(){
 
 		this.cupones = new ArrayList<CuponesDto>();
+		this.loadCupones();
 	}
 
-	public void loadCupones(){
+	public static CuponesDao getInstance() {
+		
+		if(cuponesDaoInstance == null){
+			 
+			 cuponesDaoInstance = new CuponesDao();
+		}
+		
+		return cuponesDaoInstance;
+	}
+	
+	private void loadCupones(){
 
 		File cuponesFile = new File("./archivos/CUPONES.txt");
 		Scanner cuponesScanner;
@@ -67,9 +80,5 @@ public class CuponesDao {
 
 	public ArrayList<CuponesDto> getCupones() {
 		return cupones;
-	}
-
-	public void setCupones(ArrayList<CuponesDto> cupones) {
-		this.cupones = cupones;
 	}
 }

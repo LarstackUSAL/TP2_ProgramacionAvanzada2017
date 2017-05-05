@@ -19,6 +19,7 @@ public class MenuController {
 			
 			CheckInController checkInController = new CheckInController();
 			checkInController.prepararCheckIn();
+			checkInController.CheckIn();
 			break;
 		case 0:
 

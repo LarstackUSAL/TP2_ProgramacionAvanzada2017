@@ -1,25 +1,26 @@
 package ar.edu.usal.hotel.model.dto;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
 public class ClientesDto {
 
+	private int numeroDocumento;
 	private String nombre;
 	private String apellido;
 	private Calendar fechaNacimiento;
-	private ArrayList<CuponesDto> cupones;
+	private CuponesDto cupon;
 	
 	public ClientesDto(){}
 	
-	public ClientesDto(String nombre, String apellido,
-			Calendar fechaNacimiento, ArrayList<CuponesDto> cupones) {
+	public ClientesDto(int numeroDocumento, String nombre, String apellido,
+			Calendar fechaNacimiento, CuponesDto cupon) {
 		
 		super();
+		this.setNumeroDocumento(numeroDocumento);
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.fechaNacimiento = fechaNacimiento;
-		this.cupones = cupones;
+		this.cupon = cupon;
 	}
 
 	public String getNombre() {
@@ -40,12 +41,21 @@ public class ClientesDto {
 	public void setFechaNacimiento(Calendar fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
-	public ArrayList<CuponesDto> getCupones() {
-		return cupones;
+
+	public CuponesDto getCupon() {
+		return cupon;
 	}
-	public void setCupones(ArrayList<CuponesDto> cupones) {
-		this.cupones = cupones;
+
+	public void setCupon(CuponesDto cupon) {
+		this.cupon = cupon;
 	}
-	
+
+	public int getNumeroDocumento() {
+		return numeroDocumento;
+	}
+
+	public void setNumeroDocumento(int numeroDocumento) {
+		this.numeroDocumento = numeroDocumento;
+	}
 	
 }

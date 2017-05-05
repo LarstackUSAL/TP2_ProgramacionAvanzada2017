@@ -403,10 +403,13 @@ public class Validador {
 		return r.nextInt((max - min) + 1) + min;
 	}
 
-	public static String darFormatoFechaCalendar(Calendar fecha){
+	public static String darFormatoFechaCalendar(Calendar fecha, String formatoFecha){
 
+		// "dd/MM/yyyy"
+		// "dd-MM-yyyy"
+		
 		Date fechaDate = fecha.getTime();
-		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		DateFormat formatter = new SimpleDateFormat(formatoFecha);
 		return formatter.format(fechaDate);
 	}
 	

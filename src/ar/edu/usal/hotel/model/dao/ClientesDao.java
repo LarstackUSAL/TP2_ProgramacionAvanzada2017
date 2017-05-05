@@ -15,10 +15,12 @@ public class ClientesDao {
 
 	private static ClientesDao clientesDaoInstance = null;
 	
-	private ArrayList<ClientesDto> clientes = new ArrayList<ClientesDto>();
+	private ArrayList<ClientesDto> clientes;
+	private ArrayList<ClientesDto> nuevosClientes;
 	
 	private ClientesDao(){
 		
+		this.clientes = new ArrayList<ClientesDto>();
 		this.loadClientes();
 	}
 	
@@ -45,8 +47,8 @@ public class ClientesDao {
 			
 			clientesScanner = new Scanner(clientesFile);
 			
-			CuponesDao cuponesDao = new CuponesDao();
-			cuponesDao.loadCupones();
+			CuponesDao cuponesDao = CuponesDao.getInstance();
+			
 			
 			while(clientesScanner.hasNextLine()){
 				
@@ -58,14 +60,6 @@ public class ClientesDao {
 				String fechaNacimientoTxt = clienteTxt.substring(49, 56);
 				
 				Calendar fechaNacimiento = Validador.stringToCalendar(fechaNacimientoTxt);
-				
-				// numeroDocumento		
-				// nombre				
-				// apellido				
-				// fechaCheckIn
-				// totalConsumido
-				// descuentoCalculado	
-				// fechaVencimiento
 				
 				CuponesDto cuponCliente = null;
 				
@@ -81,8 +75,8 @@ public class ClientesDao {
 					}
 				}
 				
-				Clientes
-				
+				ClientesDto cliente = new ClientesDto(numeroDocumento, nombre, apellido, fechaNacimiento, cuponCliente);
+				this.clientes.add(cliente);			
 			}
 			
 		}catch(InputMismatchException e){
@@ -97,5 +91,9 @@ public class ClientesDao {
 			System.out.println("Se ha verificado un error inesperado.");
 		}
 
+	}
+
+	public ArrayList<ClientesDto> getClientes() {
+		return clientes;
 	}
 }
