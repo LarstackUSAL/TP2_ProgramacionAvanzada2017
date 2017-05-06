@@ -13,6 +13,16 @@ public class ClientesDto {
 	public ClientesDto(){}
 	
 	public ClientesDto(int numeroDocumento, String nombre, String apellido,
+			Calendar fechaNacimiento) {
+		
+		super();
+		this.setNumeroDocumento(numeroDocumento);
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.fechaNacimiento = fechaNacimiento;
+	}
+	
+	public ClientesDto(int numeroDocumento, String nombre, String apellido,
 			Calendar fechaNacimiento, CuponesDto cupon) {
 		
 		super();

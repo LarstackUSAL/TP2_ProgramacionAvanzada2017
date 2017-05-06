@@ -14,6 +14,8 @@ public class HabitacionesDao {
 	
 	private static HabitacionesDao habitacionesDaoInstance = null;
 	
+	public static final char[] CATEGORIAS_VALIDAS = {'A', 'B', 'C'};
+	
 	private HabitacionesDto[] habitaciones;
 	
 	private HabitacionesDao(){

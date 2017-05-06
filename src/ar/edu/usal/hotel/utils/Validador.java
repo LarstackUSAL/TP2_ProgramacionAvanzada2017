@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.Random;
 import java.util.Scanner;
 
+import ar.edu.usal.hotel.exception.LongitudNoValidaException;
+
 public class Validador {
 
 	public static boolean hayEspacioDisponible(Object[] arrayAnalizado){
@@ -89,7 +91,7 @@ public class Validador {
 		return booleanValidado;
 	}
 
-	public static String insertString(String mensaje){
+	public static String insertString(String mensaje, Integer length){
 
 		Scanner s = new Scanner(System.in);
 		boolean datosOK = false;
@@ -100,18 +102,25 @@ public class Validador {
 			datosOK = true;
 			System.out.println();
 			System.out.println(mensaje);
-
+			
+			String mensajeError = "VALOR INGRESADO NO VALIDO.";
 			if(s.hasNextLine()) {
 
 				stringValidada = s.nextLine();
-
+				
 				if(stringValidada.isEmpty())
+					datosOK = false;				
+				else if(length != null && stringValidada.length()>length){
+					
 					datosOK = false;
+					mensajeError = "La longitud MAX es " + length;
+				}			
+				
 			}
 
 			if(!datosOK) {
 
-				System.out.println("VALOR INGRESADO NO VALIDO.");
+				System.out.println(mensajeError);
 			}
 
 		} while(!datosOK);
@@ -364,6 +373,42 @@ public class Validador {
 		return intValidado;
 	}
 
+	public static char insertChar(String mensaje){
+
+		Scanner s = new Scanner(System.in);
+		boolean datosOK = false;
+		String caracterString = ""; 
+		char charValidado = 0;
+
+		do {
+
+			datosOK = true;
+			System.out.println(mensaje);
+
+			if(s.hasNextLine()) {
+
+				caracterString = s.nextLine();
+
+				if(caracterString.isEmpty() || (caracterString.length() > 1)) 
+
+					datosOK = false;
+				else{
+
+					charValidado = caracterString.charAt(0);
+				}
+			}
+
+			if(!datosOK) {
+
+				System.out.println("CARACTER NO VALIDO.");
+			}
+
+		} while(!datosOK);
+
+		return charValidado;
+	}
+
+	
 	public static void insertHora(String mensaje, Calendar fechaLlegada) {
 
 		int horaTmp = insertInt("Ingresar Hora (0-23): ", 0, 24, false);

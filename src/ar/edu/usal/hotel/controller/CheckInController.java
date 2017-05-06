@@ -13,10 +13,17 @@ import ar.edu.usal.hotel.view.CheckInView;
 public class CheckInController {
 
 	private CheckInView checkInView;
-	
-	public void prepararCheckIn() {
+	private ArrayList<ClientesDto> clientesCheckIn = new ArrayList();
+	private ArrayList<ClientesDto> nuevosClientes = new ArrayList();
 
-		ArrayList<E>
+	public void checkIn() {
+		
+		this.prepararDatosClientes();
+		this.asignarHabitacion();
+	}
+
+	public void prepararDatosClientes() {
+
 		checkInView = new CheckInView();
 		boolean agregarOtroCliente = true;
 		
@@ -27,18 +34,20 @@ public class CheckInController {
 			
 			if(!esClienteRegistrado){
 				
-				//!!!!LOS CLIENTES NUEVOS AGREGARLOS AL ARRAY nuevosClientes
-				this.registrarCliente(); //se ingresan los datos por separados del cliente 
+				ClientesDto nuevoCliente = this.registrarCliente(numeroDocumento);
+				
+				this.nuevosClientes.add(nuevoCliente);
+				this.clientesCheckIn.add(nuevoCliente);
 			}
 			
-			agregarOtroCliente = checkInView.agregarOtroPasajero() //pregunta si desea agregar pasajero
+			agregarOtroCliente = checkInView.agregarOtroPasajero();
 			
 		}while(agregarOtroCliente);
 	}
 
 	private boolean checkClienteRegistrado(int numeroDocumento){
 
-		String mensajeRetornado = "";
+		String datosCliente = "";
 		
 		HabitacionesDao habitacionesDao = HabitacionesDao.getInstance();
 		ClientesDao clientes = ClientesDao.getInstance();
@@ -56,18 +65,57 @@ public class CheckInController {
 				String tieneCupon = cuponCliente!=null ? "El cliente tiene cupones de descuento." : 
 					"El cliente no posee cupones de descuento.";
 
-				mensajeRetornado = 
+				datosCliente = 
 						"Nombre: " + cliente.getNombre() + "\n"
 								+ "Apellido: " + cliente.getApellido() + "\n"
 								+ "Fecha Nacimiento: " + fechaNacimiento + "\n"
 								+ tieneCupon;
 
-				checkInView.mostrarDatosCliente();
+				checkInView.mostrarDatosCliente(datosCliente);
+				
 				return true;
 			}
 		}
 
+		checkInView.mostrarDatosCliente(datosCliente);
+		
 		return false;
+	}
+	
+	private ClientesDto registrarCliente(int numeroDocumento) {
+		
+		String nombre = checkInView.ingresarNombre();
+		String apellido = checkInView.ingresarApellido();
+		Calendar fechaNacimiento = checkInView.ingresarFechaNacimiento();
+		
+		return new ClientesDto(numeroDocumento, nombre, apellido, fechaNacimiento);
+	}
+	
+	private void asignarHabitacion() {
+		
+		boolean categoriaValida = false; 
+		
+		do{
+			
+			char categoria = checkInView.ingresarCategoria();
+					
+			for (int i = 0; i < HabitacionesDao.CATEGORIAS_VALIDAS.length; i++) {
+				
+				if(categoria == HabitacionesDao.CATEGORIAS_VALIDAS[i]){
+					
+					categoriaValida = true;
+					break;
+				}
+			}
+			
+		}while(!categoriaValida);
+			
+		int diasPermanencia = checkInView.ingresarDiasPermanencia();
+		boolean tieneBalcon = checkInView.quiereBalcon();
+		int capacidad = clientesCheckIn.size();
+		
+		//BUSCAR UNA HABITACION con estos parametros y asignarla...sino aconsejar otro tipo de habitacion (misma capacidad) 
+		
 	}
 }
 
