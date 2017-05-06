@@ -7,18 +7,18 @@ import java.util.Calendar;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import ar.edu.usal.hotel.model.dto.CuponesDto;
+import ar.edu.usal.hotel.model.dto.Cupones;
 import ar.edu.usal.hotel.utils.Validador;
 
 public class CuponesDao {
 
-	private ArrayList<CuponesDto> cupones;
+	private ArrayList<Cupones> cupones;
 
 	private static CuponesDao cuponesDaoInstance = null;
 	
 	private CuponesDao(){
 
-		this.cupones = new ArrayList<CuponesDto>();
+		this.cupones = new ArrayList<Cupones>();
 		this.loadCupones();
 	}
 
@@ -61,7 +61,7 @@ public class CuponesDao {
 
 					Calendar fechaVencimiento = Validador.stringToCalendar(fechaCheckInTxt);
 
-					CuponesDto cuponDto = new CuponesDto(numeroDocumento, nombre, apellido, fechaCheckIn, totalConsumido, descuentoCalculado, fechaVencimiento);
+					Cupones cuponDto = new Cupones(numeroDocumento, nombre, apellido, fechaCheckIn, totalConsumido, descuentoCalculado, fechaVencimiento);
 
 					cupones.add(cuponDto);
 				}
@@ -78,7 +78,7 @@ public class CuponesDao {
 
 	}
 
-	public ArrayList<CuponesDto> getCupones() {
+	public ArrayList<Cupones> getCupones() {
 		return cupones;
 	}
 }

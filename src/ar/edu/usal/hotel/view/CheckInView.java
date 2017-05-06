@@ -1,6 +1,7 @@
 package ar.edu.usal.hotel.view;
 
 import java.util.Calendar;
+import java.util.List;
 
 import ar.edu.usal.hotel.utils.Validador;
 
@@ -57,5 +58,16 @@ public class CheckInView {
 		return Validador.insertBooleanSyN("Quiere que la habitacion tenga balcon? (s/n):");
 	}
 
-	
+	public int ingresarHabitacionRequerida(List habitaciones) {
+		
+		System.out.println("No tenemos una habitacion disponible acorde al criterio ingresado.");
+		System.out.println("Le aconsejamos las siguientes habitaciones:");
+		
+		for (int i = 0; i < habitaciones.size(); i++) {
+			
+			System.out.println(habitaciones.get(i));
+		}
+		
+		return Validador.insertInt("Ingresar numero habitacion requerida: ", null, null, false);
+	}
 }

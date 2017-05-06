@@ -7,20 +7,20 @@ import java.util.Calendar;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import ar.edu.usal.hotel.model.dto.ClientesDto;
-import ar.edu.usal.hotel.model.dto.CuponesDto;
+import ar.edu.usal.hotel.model.dto.Clientes;
+import ar.edu.usal.hotel.model.dto.Cupones;
 import ar.edu.usal.hotel.utils.Validador;
 
 public class ClientesDao {
 
 	private static ClientesDao clientesDaoInstance = null;
 	
-	private ArrayList<ClientesDto> clientes;
-	private ArrayList<ClientesDto> nuevosClientes;
+	private ArrayList<Clientes> clientes;
+	private ArrayList<Clientes> nuevosClientes;
 	
 	private ClientesDao(){
 		
-		this.clientes = new ArrayList<ClientesDto>();
+		this.clientes = new ArrayList<Clientes>();
 		this.loadClientes();
 	}
 	
@@ -61,21 +61,20 @@ public class ClientesDao {
 				
 				Calendar fechaNacimiento = Validador.stringToCalendar(fechaNacimientoTxt);
 				
-				CuponesDto cuponCliente = null;
+				Cupones cuponCliente = null;
 				
 				for (int i = 0; i < cuponesDao.getCupones().size(); i++) {
 					
-					CuponesDto cupon = cuponesDao.getCupones().get(i);
+					Cupones cupon = cuponesDao.getCupones().get(i);
 					
 					if(cupon.getNumeroDocumento() == numeroDocumento){
 						
 						cuponCliente = cupon;
-						
 						break;
 					}
 				}
 				
-				ClientesDto cliente = new ClientesDto(numeroDocumento, nombre, apellido, fechaNacimiento, cuponCliente);
+				Clientes cliente = new Clientes(numeroDocumento, nombre, apellido, fechaNacimiento, cuponCliente);
 				this.clientes.add(cliente);			
 			}
 			
@@ -93,7 +92,7 @@ public class ClientesDao {
 
 	}
 
-	public ArrayList<ClientesDto> getClientes() {
+	public ArrayList<Clientes> getClientes() {
 		return clientes;
 	}
 }

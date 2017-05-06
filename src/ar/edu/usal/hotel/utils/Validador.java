@@ -8,8 +8,6 @@ import java.util.Date;
 import java.util.Random;
 import java.util.Scanner;
 
-import ar.edu.usal.hotel.exception.LongitudNoValidaException;
-
 public class Validador {
 
 	public static boolean hayEspacioDisponible(Object[] arrayAnalizado){

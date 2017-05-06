@@ -2,15 +2,15 @@ package ar.edu.usal.hotel.model.dto;
 
 import java.util.Calendar;
 
-public class ConsumosDto {
+public class Consumos {
 
 	private Calendar fecha;
-	private ProductosDto producto;
+	private Productos producto;
 	private int cantidad;
 	
-	public ConsumosDto(){}
+	public Consumos(){}
 	
-	public ConsumosDto(Calendar fecha, int cantidad) {
+	public Consumos(Calendar fecha, int cantidad) {
 		super();
 		this.fecha = fecha;
 		this.cantidad = cantidad;
@@ -24,13 +24,13 @@ public class ConsumosDto {
 		this.fecha = fecha;
 	}
 
-	public ProductosDto getProducto() {
+	public Productos getProducto() {
 		return producto;
 	}
 
 	public void setProducto(String codigo, String descripcion, double precio) {
 		
-		ProductosDto producto = new ProductosDto(codigo, descripcion, precio);
+		Productos producto = new Productos(codigo, descripcion, precio);
 		this.producto = producto;
 	}
 

@@ -1,14 +1,14 @@
 package ar.edu.usal.hotel.model.dto;
 
-public class ProductosDto {
+public class Productos {
 
 	private String codigo;
 	private String descripcion;
 	private double precio;
 	
-	public ProductosDto(){}
+	public Productos(){}
 	
-	public ProductosDto(String codigo, String descripcion, double precio) {
+	public Productos(String codigo, String descripcion, double precio) {
 		super();
 		this.codigo = codigo;
 		this.descripcion = descripcion;

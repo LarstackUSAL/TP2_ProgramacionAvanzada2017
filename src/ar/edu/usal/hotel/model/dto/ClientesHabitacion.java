@@ -3,21 +3,21 @@ package ar.edu.usal.hotel.model.dto;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class ClientesHabitacionDto {
+public class ClientesHabitacion {
 
-	private ArrayList<ClientesDto> clientes;
-	private HabitacionesDto habitacion;
+	private ArrayList<Clientes> clientes;
+	private Habitaciones habitacion;
 	private int diasPermanencia;
 	private Calendar fechaEgreso;
 	private Calendar fechaIngreso;
-	private ArrayList<ConsumosDto> consumos;
+	private ArrayList<Consumos> consumos;
 	
-	public ClientesHabitacionDto(){}
+	public ClientesHabitacion(){}
 	
-	public ClientesHabitacionDto(ArrayList<ClientesDto> clientes,
-			HabitacionesDto habitacion, int diasPermanencia,
+	public ClientesHabitacion(ArrayList<Clientes> clientes,
+			Habitaciones habitacion, int diasPermanencia,
 			Calendar fechaEgreso, Calendar fechaIngreso,
-			ArrayList<ConsumosDto> consumos) {
+			ArrayList<Consumos> consumos) {
 		super();
 		this.clientes = clientes;
 		this.habitacion = habitacion;
@@ -27,19 +27,19 @@ public class ClientesHabitacionDto {
 		this.consumos = consumos;
 	}
 
-	public ArrayList<ClientesDto> getClientes() {
+	public ArrayList<Clientes> getClientes() {
 		return clientes;
 	}
 
-	public void setClientes(ArrayList<ClientesDto> clientes) {
+	public void setClientes(ArrayList<Clientes> clientes) {
 		this.clientes = clientes;
 	}
 
-	public HabitacionesDto getHabitacion() {
+	public Habitaciones getHabitacion() {
 		return habitacion;
 	}
 
-	public void setHabitacion(HabitacionesDto habitacion) {
+	public void setHabitacion(Habitaciones habitacion) {
 		this.habitacion = habitacion;
 	}
 
@@ -67,11 +67,11 @@ public class ClientesHabitacionDto {
 		this.fechaIngreso = fechaIngreso;
 	}
 
-	public ArrayList<ConsumosDto> getConsumos() {
+	public ArrayList<Consumos> getConsumos() {
 		return consumos;
 	}
 
-	public void setConsumos(ArrayList<ConsumosDto> consumos) {
+	public void setConsumos(ArrayList<Consumos> consumos) {
 		this.consumos = consumos;
 	}
 	

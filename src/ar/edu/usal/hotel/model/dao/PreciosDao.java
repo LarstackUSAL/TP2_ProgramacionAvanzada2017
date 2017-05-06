@@ -6,15 +6,15 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import ar.edu.usal.hotel.model.dto.PreciosDto;
+import ar.edu.usal.hotel.model.dto.Precios;
 
 public class PreciosDao {
 
-	private ArrayList<PreciosDto> precios;
+	private ArrayList<Precios> precios;
 	
 	public PreciosDao(){
 		
-		this.precios = new ArrayList<PreciosDto>();
+		this.precios = new ArrayList<Precios>();
 	}
 	
 	public void loadPrecios(){
@@ -35,7 +35,7 @@ public class PreciosDao {
 				int capacidad = Integer.parseInt(preciosArray[1]);				
 				double precioTxt = Double.parseDouble(preciosArray[2].substring(1, ((preciosArray[2].length())-1)));
 				
-				PreciosDto precio = new PreciosDto(categoria, capacidad, precioTxt);
+				Precios precio = new Precios(categoria, capacidad, precioTxt);
 				
 				precios.add(precio);
 			}
@@ -51,11 +51,11 @@ public class PreciosDao {
 
 	}
 	
-	public PreciosDto cargarPrecioHabitacion(char categoria, int capacidad){
+	public Precios cargarPrecioHabitacion(char categoria, int capacidad){
 		
 		for (int i = 0; i < this.precios.size(); i++) {
 			
-			PreciosDto precio = this.precios.get(i);
+			Precios precio = this.precios.get(i);
 			
 			if(precio.getCategoria() == categoria){
 				

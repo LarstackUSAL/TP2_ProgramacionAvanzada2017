@@ -2,17 +2,17 @@ package ar.edu.usal.hotel.model.dto;
 
 import java.util.Calendar;
 
-public class ClientesDto {
+public class Clientes {
 
 	private int numeroDocumento;
 	private String nombre;
 	private String apellido;
 	private Calendar fechaNacimiento;
-	private CuponesDto cupon;
+	private Cupones cupon;
 	
-	public ClientesDto(){}
+	public Clientes(){}
 	
-	public ClientesDto(int numeroDocumento, String nombre, String apellido,
+	public Clientes(int numeroDocumento, String nombre, String apellido,
 			Calendar fechaNacimiento) {
 		
 		super();
@@ -22,8 +22,8 @@ public class ClientesDto {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 	
-	public ClientesDto(int numeroDocumento, String nombre, String apellido,
-			Calendar fechaNacimiento, CuponesDto cupon) {
+	public Clientes(int numeroDocumento, String nombre, String apellido,
+			Calendar fechaNacimiento, Cupones cupon) {
 		
 		super();
 		this.setNumeroDocumento(numeroDocumento);
@@ -52,11 +52,11 @@ public class ClientesDto {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 
-	public CuponesDto getCupon() {
+	public Cupones getCupon() {
 		return cupon;
 	}
 
-	public void setCupon(CuponesDto cupon) {
+	public void setCupon(Cupones cupon) {
 		this.cupon = cupon;
 	}
 

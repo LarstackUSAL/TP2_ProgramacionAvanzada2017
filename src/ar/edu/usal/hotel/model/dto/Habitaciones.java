@@ -1,17 +1,18 @@
 package ar.edu.usal.hotel.model.dto;
 
-public class HabitacionesDto {
+public class Habitaciones {
 
 	private int numero;
 	private int capacidad;
 	private char categoria;
 	private boolean tieneBalcon;
 	private String comentario;
-	private PreciosDto precio;
+	private Precios precio;
+	private boolean disponible;
 	
-	public HabitacionesDto(){}
+	public Habitaciones(){}
 	
-	public HabitacionesDto(int numero, int capacidad, char categoria,
+	public Habitaciones(int numero, int capacidad, char categoria,
 			boolean tieneBalcon, String comentario) {
 		super();
 		this.numero = numero;
@@ -19,6 +20,7 @@ public class HabitacionesDto {
 		this.categoria = categoria;
 		this.tieneBalcon = tieneBalcon;
 		this.comentario = comentario;
+		this.disponible = true;
 	}
 
 	public int getNumero() {
@@ -61,12 +63,20 @@ public class HabitacionesDto {
 		this.comentario = comentario;
 	}
 
-	public PreciosDto getPrecio() {
+	public Precios getPrecio() {
 		return precio;
 	}
 
-	public void setPrecio(PreciosDto precio) {
+	public void setPrecio(Precios precio) {
 		this.precio = precio;
+	}
+
+	public boolean isDisponible() {
+		return disponible;
+	}
+
+	public void setDisponible(boolean disponible) {
+		this.disponible = disponible;
 	}
 	
 	

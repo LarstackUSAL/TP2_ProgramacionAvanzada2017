@@ -5,8 +5,8 @@ import java.io.FileNotFoundException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import ar.edu.usal.hotel.model.dto.HabitacionesDto;
-import ar.edu.usal.hotel.model.dto.PreciosDto;
+import ar.edu.usal.hotel.model.dto.Habitaciones;
+import ar.edu.usal.hotel.model.dto.Precios;
 
 public class HabitacionesDao {
 	
@@ -16,11 +16,11 @@ public class HabitacionesDao {
 	
 	public static final char[] CATEGORIAS_VALIDAS = {'A', 'B', 'C'};
 	
-	private HabitacionesDto[] habitaciones;
+	private Habitaciones[] habitaciones;
 	
 	private HabitacionesDao(){
 		
-		this.habitaciones = new HabitacionesDto[MAX_HABITACIONES];
+		this.habitaciones = new Habitaciones[MAX_HABITACIONES];
 		this.loadHabitaciones();
 	}
 	
@@ -57,8 +57,8 @@ public class HabitacionesDao {
 				boolean tieneBalcon = Boolean.parseBoolean(habitacionArray[3]);
 				String comentario = habitacionArray[4];
 				
-				HabitacionesDto habitacion = new HabitacionesDto(numero, capacidad, categoria, tieneBalcon, comentario);
-				PreciosDto precio = precios.cargarPrecioHabitacion(categoria, capacidad);
+				Habitaciones habitacion = new Habitaciones(numero, capacidad, categoria, tieneBalcon, comentario);
+				Precios precio = precios.cargarPrecioHabitacion(categoria, capacidad);
 			
 				if(!this.agregarHabitacion(habitacion)){
 					System.out.println("ERROR! Ya se han cargado las 150 habitaciones.");
@@ -75,7 +75,7 @@ public class HabitacionesDao {
 		}
 	}
 
-	public boolean agregarHabitacion(HabitacionesDto habitacion){
+	public boolean agregarHabitacion(Habitaciones habitacion){
 		
 		for (int i = 0; i < this.habitaciones.length; i++) {
 			
@@ -89,7 +89,7 @@ public class HabitacionesDao {
 		return false;
 	}
 	
-	public HabitacionesDto[] getHabitaciones() {
+	public Habitaciones[] getHabitaciones() {
 		return habitaciones;
 	}
 	

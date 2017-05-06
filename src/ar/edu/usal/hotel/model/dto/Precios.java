@@ -1,14 +1,14 @@
 package ar.edu.usal.hotel.model.dto;
 
-public class PreciosDto {
+public class Precios {
 
 	private char categoria;
 	private int capacidad;
 	private double precio;
 	
-	public PreciosDto(){}
+	public Precios(){}
 	
-	public PreciosDto(char categoria, int capacidad, double precio) {
+	public Precios(char categoria, int capacidad, double precio) {
 		super();
 		this.categoria = categoria;
 		this.capacidad = capacidad;

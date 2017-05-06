@@ -2,7 +2,7 @@ package ar.edu.usal.hotel.model.dto;
 
 import java.util.Calendar;
 
-public class CuponesDto {
+public class Cupones {
 
 	private int numeroDocumento;		
 	private String nombre;				
@@ -12,9 +12,9 @@ public class CuponesDto {
 	private double descuentoCalculado;
 	private Calendar fechaVencimiento;
 
-	public CuponesDto(){}
+	public Cupones(){}
 
-	public CuponesDto(int numeroDocumento, String nombre, String apellido,
+	public Cupones(int numeroDocumento, String nombre, String apellido,
 			Calendar fechaCheckIn, double totalConsumido,
 			double descuentoCalculado, Calendar fechaVencimiento) {
 		
