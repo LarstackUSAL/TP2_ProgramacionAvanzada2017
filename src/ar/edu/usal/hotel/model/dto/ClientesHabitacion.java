@@ -16,15 +16,15 @@ public class ClientesHabitacion {
 	
 	public ClientesHabitacion(ArrayList<Clientes> clientes,
 			Habitaciones habitacion, int diasPermanencia,
-			Calendar fechaEgreso, Calendar fechaIngreso,
-			ArrayList<Consumos> consumos) {
+			Calendar fechaEgreso, Calendar fechaIngreso) {
+		
 		super();
 		this.clientes = clientes;
 		this.habitacion = habitacion;
 		this.diasPermanencia = diasPermanencia;
 		this.fechaEgreso = fechaEgreso;
 		this.fechaIngreso = fechaIngreso;
-		this.consumos = consumos;
+		this.consumos = new ArrayList();
 	}
 
 	public ArrayList<Clientes> getClientes() {

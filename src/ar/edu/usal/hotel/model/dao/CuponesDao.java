@@ -53,13 +53,13 @@ public class CuponesDao {
 					String apellido = cuponesArray[2];
 					String fechaCheckInTxt = cuponesArray[3];
 
-					Calendar fechaCheckIn = Validador.stringToCalendar(fechaCheckInTxt);
+					Calendar fechaCheckIn = Validador.stringToCalendar(fechaCheckInTxt, "yyyyMMdd");
 
 					double totalConsumido = Double.parseDouble(cuponesArray[4]);
 					double descuentoCalculado = Double.parseDouble(cuponesArray[5]);
 					String fechaVencimientoTxt = cuponesArray[6];
 
-					Calendar fechaVencimiento = Validador.stringToCalendar(fechaCheckInTxt);
+					Calendar fechaVencimiento = Validador.stringToCalendar(fechaCheckInTxt, "yyyyMMdd");
 
 					Cupones cuponDto = new Cupones(numeroDocumento, nombre, apellido, fechaCheckIn, totalConsumido, descuentoCalculado, fechaVencimiento);
 
@@ -67,6 +67,8 @@ public class CuponesDao {
 				}
 			}
 
+			cuponesScanner.close();
+			
 		}catch(InputMismatchException e){
 
 			System.out.println("Se ha encontrado un tipo de dato insesperado.");

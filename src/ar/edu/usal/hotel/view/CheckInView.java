@@ -70,4 +70,15 @@ public class CheckInView {
 		
 		return Validador.insertInt("Ingresar numero habitacion requerida: ", null, null, false);
 	}
+
+	public void mostrarFechaEgreso(String fechaEgresoString) {
+
+		if(fechaEgresoString != null){
+			
+			System.out.println("Check-in realizado correctamente. La fecha de egreso es: " + fechaEgresoString);
+		}else{
+			
+			System.out.println("No hay habitaciones disponibles con esa capacidad.");
+		}		
+	}
 }

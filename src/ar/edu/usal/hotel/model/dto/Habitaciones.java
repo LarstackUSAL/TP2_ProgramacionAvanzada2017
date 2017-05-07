@@ -77,7 +77,5 @@ public class Habitaciones {
 
 	public void setDisponible(boolean disponible) {
 		this.disponible = disponible;
-	}
-	
-	
+	}	
 }

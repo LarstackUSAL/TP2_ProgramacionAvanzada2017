@@ -22,17 +22,8 @@ public class MenuController {
 			break;
 		case 0:
 
-			SalidaSistemaController();
+//			SalidaSistemaController();
 			break;
 		}
 	}
-
-
-
-
-
-
-
-
-}
 }

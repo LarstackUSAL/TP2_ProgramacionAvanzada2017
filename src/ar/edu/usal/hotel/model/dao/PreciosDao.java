@@ -40,6 +40,8 @@ public class PreciosDao {
 				precios.add(precio);
 			}
 			
+			preciosScanner.close();
+			
 		}catch(InputMismatchException e){
 			
 			System.out.println("Se ha encontrado un tipo de dato insesperado.");
