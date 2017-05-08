@@ -1,0 +1,10 @@
+001Tostado de jamon y queso      0070.00
+002Ensalada Caesar				 0130.00
+003Torta del dia                 0115.00
+004Medialuna					 0010.00
+005Cafe con leche				 0050.00
+006Capucchino					 0070.00
+007Submarino					 0070.00
+008Exprimido de naranja			 0060.00
+009Agua mineral sin gas			 0035.00
+010Gaseosa						 0040.00

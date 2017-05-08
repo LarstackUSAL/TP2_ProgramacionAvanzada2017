@@ -1,0 +1,150 @@
+1;1;A;true;Tiene jacuzzi;true
+2;2;A;false;Tiene jacuzzi;true
+3;3;A;true;Tiene jacuzzi;true
+4;4;A;false;Tiene jacuzzi;true
+5;1;A;true;Tiene jacuzzi;true
+6;2;A;false;Tiene jacuzzi;true
+7;3;A;true;Tiene jacuzzi;true
+8;4;A;false;Tiene jacuzzi;true
+9;1;A;true;Tiene jacuzzi;true
+10;2;A;false;Tiene jacuzzi;true
+11;3;A;true;Tiene ducha escocesa;true
+12;4;A;false;Tiene ducha escocesa;true
+13;1;A;true;Tiene ducha escocesa;true
+14;2;A;false;Tiene ducha escocesa;true
+15;3;A;true;Tiene ducha escocesa;true
+16;4;A;false;Tiene ducha escocesa;true
+17;1;A;true;Tiene ducha escocesa;true
+18;2;A;false;Tiene ducha escocesa;true
+19;3;A;true;Tiene ducha escocesa;true
+20;4;A;false;Tiene ducha escocesa;true
+21;1;A;true;Tiene jacuzzi;true
+22;2;A;false;Tiene jacuzzi;true
+23;3;A;true;Tiene jacuzzi;true
+24;4;A;false;Tiene jacuzzi;true
+25;1;A;true;Tiene jacuzzi;true
+26;2;A;false;Tiene jacuzzi;true
+27;3;A;true;Tiene jacuzzi;true
+28;4;A;false;Tiene jacuzzi;true
+29;1;A;true;Tiene jacuzzi;true
+30;2;A;false;Tiene jacuzzi;true
+31;3;A;true;Tiene ducha escocesa;true
+32;4;A;false;Tiene ducha escocesa;true
+33;1;A;true;Tiene ducha escocesa;true
+34;2;A;false;Tiene ducha escocesa;true
+35;3;A;true;Tiene ducha escocesa;true
+36;4;A;false;Tiene ducha escocesa;true
+37;1;A;true;Tiene ducha escocesa;true
+38;2;A;false;Tiene ducha escocesa;true
+39;3;A;true;Tiene ducha escocesa;true
+40;4;A;false;Tiene ducha escocesa;true
+41;1;A;true;Tiene jacuzzi;true
+42;2;A;false;Tiene jacuzzi;true
+43;3;A;true;Tiene jacuzzi;true
+44;4;A;false;Tiene jacuzzi;true
+45;1;A;true;Tiene jacuzzi;true
+46;2;A;false;Tiene jacuzzi;true
+47;3;A;true;Tiene jacuzzi;true
+48;4;A;false;Tiene jacuzzi;true
+49;1;A;true;Tiene jacuzzi;true
+50;2;A;false;Tiene jacuzzi;true
+51;3;B;true;Acceso a spa;true
+52;4;B;false;Acceso a spa;true
+53;1;B;true;Acceso a spa;true
+54;2;B;false;Acceso a spa;true
+55;3;B;true;Acceso a spa;true
+56;4;B;false;Acceso a spa;true
+57;1;B;true;Acceso a spa;true
+58;2;B;false;Acceso a spa;true
+59;3;B;true;Acceso a spa;true
+60;4;B;false;Acceso a spa;true
+61;1;B;true;Acceso a spa;true
+62;2;B;false;Acceso a spa;true
+63;3;B;true;Acceso a spa;true
+64;4;B;false;Acceso a spa;true
+65;1;B;true;Acceso a spa;true
+66;2;B;false;Acceso a spa;true
+67;3;B;true;Acceso a spa;true
+68;4;B;false;Acceso a spa;true
+69;1;B;true;Acceso a spa;true
+70;2;B;false;Acceso a spa;true
+71;3;B;true;Acceso a spa;true
+72;4;B;false;Acceso a spa;true
+73;1;B;true;Acceso a spa;true
+74;2;B;false;Acceso a spa;true
+75;3;B;true;Acceso a spa;true
+76;4;B;false;Acceso a spa;true
+77;1;B;true;Acceso a spa;true
+78;2;B;false;Acceso a spa;true
+79;3;B;true;Acceso a spa;true
+80;4;B;false;Acceso a spa;true
+81;1;B;true;Acceso a spa;true
+82;2;B;false;Acceso a spa;true
+83;3;B;true;Acceso a spa;true
+84;4;B;false;Acceso a spa;true
+85;1;B;true;Acceso a spa;true
+86;2;B;false;Acceso a spa;true
+87;3;B;true;Acceso a spa;true
+88;4;B;false;Acceso a spa;true
+89;1;B;true;Acceso a spa;true
+90;2;B;false;Acceso a spa;true
+91;3;B;true;Acceso a spa;true
+92;4;B;false;Acceso a spa;true
+93;1;B;true;Acceso a spa;true
+94;2;B;false;Acceso a spa;true
+95;3;B;true;Acceso a spa;true
+96;4;B;false;Acceso a spa;true
+97;1;B;true;Acceso a spa;true
+98;2;B;false;Acceso a spa;true
+99;3;B;true;Acceso a spa;true
+100;4;B;false;Acceso a spa;true
+101;1;C;true;Acceso a piletas;true
+102;2;C;false;Acceso a piletas;true
+103;3;C;true;Acceso a piletas;true
+104;4;C;false;Acceso a piletas;true
+105;1;C;true;Acceso a piletas;true
+106;2;C;false;Acceso a piletas;true
+107;3;C;true;Acceso a piletas;true
+108;4;C;false;Acceso a piletas;true
+109;1;C;true;Acceso a piletas;true
+110;2;C;false;Acceso a piletas;true
+111;3;C;true;Acceso a piletas;true
+112;4;C;false;Acceso a piletas;true
+113;1;C;true;Acceso a piletas;true
+114;2;C;false;Acceso a piletas;true
+115;3;C;true;Acceso a piletas;true
+116;4;C;false;Acceso a piletas;true
+117;1;C;true;Acceso a piletas;true
+118;2;C;false;Acceso a piletas;true
+119;3;C;true;Acceso a piletas;true
+120;4;C;false;Acceso a piletas;true
+121;1;C;true;Acceso a piletas;true
+122;2;C;false;Acceso a piletas;true
+123;3;C;true;Acceso a piletas;true
+124;4;C;false;Acceso a piletas;true
+125;1;C;true;Acceso a piletas;true
+126;2;C;false;;true
+127;3;C;true;;true
+128;4;C;false;;true
+129;1;C;true;;true
+130;2;C;false;;true
+131;3;C;true;;true
+132;4;C;false;;true
+133;1;C;true;;true
+134;2;C;false;;true
+135;3;C;true;;true
+136;4;C;false;;true
+137;1;C;true;;true
+138;2;C;false;;true
+139;3;C;true;;true
+140;4;C;false;;true
+141;1;C;true;;true
+142;2;C;false;;true
+143;3;C;true;;true
+144;4;C;false;;true
+145;1;C;true;;true
+146;2;C;false;;true
+147;3;C;true;;true
+148;4;C;false;;true
+149;1;C;true;;true
+150;2;C;false;;true
