@@ -480,9 +480,7 @@ public class Validador {
 		return calendar;		
 	}
 	
-	public static String fillStringConEspacios(String s, int longitudFinalString, boolean izquierda){
-		
-		boolean longitudOk = false;
+	public static String fillString(String s, int longitudFinalString, String filler, boolean izquierda){
 					
 		if(s.length() < longitudFinalString){
 			
@@ -492,10 +490,10 @@ public class Validador {
 				
 				if(izquierda){
 				
-					s = " " + s;
+					s = filler + s;
 				}else{
 				
-					s += " ";
+					s += filler;
 				}
 			}
 		}

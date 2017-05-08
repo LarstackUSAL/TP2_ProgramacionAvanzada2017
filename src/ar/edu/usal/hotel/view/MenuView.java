@@ -8,7 +8,10 @@ public class MenuView {
 
 		String[] menu = {
 
-				"1 - Check-in."				
+				"1 - Check-in.",
+				"2 - Registrar consumo.",
+				"3 - Consultar habitaciones.",
+				"4 - Consultar consumos."
 		};
 
 		System.out.println();

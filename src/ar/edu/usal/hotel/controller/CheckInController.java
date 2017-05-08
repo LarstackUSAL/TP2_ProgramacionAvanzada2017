@@ -9,6 +9,7 @@ import ar.edu.usal.hotel.exception.ClienteNoRegistradoException;
 import ar.edu.usal.hotel.exception.NumeroHabitacionNoValidoException;
 import ar.edu.usal.hotel.model.dao.ClientesDao;
 import ar.edu.usal.hotel.model.dao.ClientesHabitacionDao;
+import ar.edu.usal.hotel.model.dao.ConsumosDao;
 import ar.edu.usal.hotel.model.dao.HabitacionesDao;
 import ar.edu.usal.hotel.model.dto.Clientes;
 import ar.edu.usal.hotel.model.dto.ClientesHabitacion;
@@ -21,6 +22,11 @@ public class CheckInController {
 
 	private CheckInView checkInView;
 	private ArrayList<Clientes> clientesCheckIn;
+	private Clientes clienteResponsable;
+
+	public CheckInController() {
+		super();
+	}
 
 	public void checkIn() {
 		
@@ -31,6 +37,7 @@ public class CheckInController {
 	public void prepararDatosClientes() {
 
 		this.clientesCheckIn = new ArrayList();
+		boolean nuevoCheckIn = true;
 		checkInView = new CheckInView();
 		boolean agregarOtroCliente = true;
 		
@@ -50,6 +57,12 @@ public class CheckInController {
 			}
 			
 			this.clientesCheckIn.add(cliente);
+			
+			if(nuevoCheckIn){
+				
+				this.clienteResponsable = cliente;
+				nuevoCheckIn = false;
+			}
 						
 			agregarOtroCliente = checkInView.agregarOtroPasajero();
 			
@@ -59,38 +72,29 @@ public class CheckInController {
 	private Clientes checkClienteRegistrado(int numeroDocumento) throws ClienteNoRegistradoException{
 
 		String datosCliente = "";
-		
-		HabitacionesDao habitacionesDao = HabitacionesDao.getInstance();
+
 		ClientesDao clientes = ClientesDao.getInstance();
 
-		for (int i = 0; i < clientes.getClientes().size(); i++) {
+		Clientes cliente = clientes.loadClientePorNumeroDocumento(numeroDocumento);
 
-			Clientes cliente = clientes.getClientes().get(i);
+		Calendar fechaNacimientoCalendar = cliente.getFechaNacimiento();
+		String fechaNacimiento = Validador.calendarToString(fechaNacimientoCalendar, "dd-MM-yyyy");
 
-			if(cliente.getNumeroDocumento() == numeroDocumento){
+		Cupones cuponCliente = cliente.getCupon();
+		String tieneCupon = cuponCliente!=null ? "El cliente tiene cupones de descuento." : 
+			"El cliente no posee cupones de descuento.";
 
-				Calendar fechaNacimientoCalendar = cliente.getFechaNacimiento();
-				String fechaNacimiento = Validador.calendarToString(fechaNacimientoCalendar, "dd-MM-yyyy");
+		datosCliente = 
+				"Nombre: " + cliente.getNombre() + "\n"
+						+ "Apellido: " + cliente.getApellido() + "\n"
+						+ "Fecha Nacimiento: " + fechaNacimiento + "\n"
+						+ tieneCupon;
 
-				Cupones cuponCliente = cliente.getCupon();
-				String tieneCupon = cuponCliente!=null ? "El cliente tiene cupones de descuento." : 
-					"El cliente no posee cupones de descuento.";
+		checkInView.mostrarDatosCliente(datosCliente);
 
-				datosCliente = 
-						"Nombre: " + cliente.getNombre() + "\n"
-								+ "Apellido: " + cliente.getApellido() + "\n"
-								+ "Fecha Nacimiento: " + fechaNacimiento + "\n"
-								+ tieneCupon;
-
-				checkInView.mostrarDatosCliente(datosCliente);
-				
-				return cliente;
-			}
-		}
-
-		throw new ClienteNoRegistradoException(numeroDocumento);
+		return cliente;
 	}
-	
+
 
 	
 	private void asignarHabitacion() {
@@ -126,7 +130,7 @@ public class CheckInController {
 		for (int i = 0; i < habitaciones.length; i++) {
 			
 			Habitaciones habitacionIterada = habitaciones[i];
-			if(habitacionIterada.getCapacidad() == capacidad && habitacionIterada.isDisponible()){
+			if(habitacionIterada.getCapacidad() >= capacidad && habitacionIterada.isDisponible()){
 				
 				habitacionesTmp.add(habitacionIterada);
 				
@@ -193,11 +197,13 @@ public class CheckInController {
 			Calendar fechaEgreso = clientesHabitacionDao.calcularFechaEgreso(diasPermanencia);
 			
 			ClientesHabitacion clientesHabitacionCheckIn = new ClientesHabitacion(
-					clientesCheckIn, habitacionCheckIn, diasPermanencia, fechaEgreso, fechaIngreso);
+					this.clienteResponsable, clientesCheckIn, habitacionCheckIn, diasPermanencia, fechaEgreso, fechaIngreso);
 			
 			clientesHabitacionDao.getClientesHabitacion().add(clientesHabitacionCheckIn);
 			
 			habitacionCheckIn.setDisponible(false);
+			
+			ConsumosDao.crearArchivoConsumos(habitacionCheckIn.getNumero());
 			
 			fechaEgresoString = Validador.calendarToString(fechaEgreso, "dd-MM-yyyy");
 		}

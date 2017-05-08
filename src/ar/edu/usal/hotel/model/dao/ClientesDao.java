@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import ar.edu.usal.hotel.exception.ClienteNoRegistradoException;
 import ar.edu.usal.hotel.model.dto.Clientes;
 import ar.edu.usal.hotel.model.dto.Cupones;
 import ar.edu.usal.hotel.utils.Validador;
@@ -105,8 +106,8 @@ public class ClientesDao {
 		// fechaNacimiento 	char(8)
 		
 		String numeroDocumento = String.valueOf(cliente.getNumeroDocumento()).trim();
-		String nombre = Validador.fillStringConEspacios(cliente.getNombre().trim(), 20, false);
-		String apellido = Validador.fillStringConEspacios(cliente.getApellido().trim(), 20, false);
+		String nombre = Validador.fillString(cliente.getNombre().trim(), 20," ", false);
+		String apellido = Validador.fillString(cliente.getApellido().trim(), 20," ", false);
 		String fechaNacimiento = Validador.calendarToString(cliente.getFechaNacimiento(), "yyyyMMdd").trim();
 		
 		clientesOut.println(nombre + apellido + numeroDocumento + fechaNacimiento);
@@ -118,5 +119,20 @@ public class ClientesDao {
 	
 	public ArrayList<Clientes> getClientes() {
 		return clientes;
+	}
+
+	public Clientes loadClientePorNumeroDocumento(int numeroDocumento) throws ClienteNoRegistradoException {
+		
+		for (int i = 0; i < this.getClientes().size(); i++) {
+
+			Clientes cliente = this.getClientes().get(i);
+
+			if(cliente.getNumeroDocumento() == numeroDocumento){
+				
+				return cliente;		
+			}
+		}
+
+		throw new ClienteNoRegistradoException(numeroDocumento);
 	}
 }

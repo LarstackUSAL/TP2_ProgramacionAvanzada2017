@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import ar.edu.usal.hotel.model.dto.Clientes;
 import ar.edu.usal.hotel.model.dto.ClientesHabitacion;
+import ar.edu.usal.hotel.model.dto.Habitaciones;
 
 public class ClientesHabitacionDao {
 
@@ -14,7 +16,7 @@ public class ClientesHabitacionDao {
 	
 	private ClientesHabitacionDao(){
 		
-		this.setClientesHabitacion(new ArrayList());
+		this.clientesHabitacion = new ArrayList();
 	}
 	
 	public static ClientesHabitacionDao getInstance(){
@@ -41,9 +43,44 @@ public class ClientesHabitacionDao {
 		return clientesHabitacion;
 	}
 
-	public void setClientesHabitacion(ArrayList<ClientesHabitacion> clientesHabitacion) {
-		this.clientesHabitacion = clientesHabitacion;
+	public Habitaciones loadHabitacionDelCliente(Clientes cliente){
+		
+		Habitaciones habitacion = null;
+		
+		clientesHabitacionTag:
+		for (int i = 0; i < this.clientesHabitacion.size(); i++) {
+			
+			ClientesHabitacion clientesHabitacion = this.clientesHabitacion.get(i);
+			
+			for (int j = 0; j < clientesHabitacion.getClientes().size(); j++) {
+				
+				Clientes clienteIterado = clientesHabitacion.getClientes().get(j);
+				
+				if(clienteIterado.getNumeroDocumento() == cliente.getNumeroDocumento()){
+					
+					habitacion = clientesHabitacion.getHabitacion();
+					break clientesHabitacionTag;
+				}
+			}
+		}
+		
+		return habitacion;
 	}
 	
+	public ArrayList<Clientes> loadClientesDeLaHabitacion(int numeroHabitacion){
+		
+		for (int i = 0; i < this.clientesHabitacion.size(); i++) {
+			
+			ClientesHabitacion clientesHabitacion = this.clientesHabitacion.get(i);
+			
+			if(clientesHabitacion.getHabitacion().getNumero() == numeroHabitacion){
+				
+				return clientesHabitacion.getClientes();
+			}
+			
+		}
+		
+		return null;
+	}
 	
 }

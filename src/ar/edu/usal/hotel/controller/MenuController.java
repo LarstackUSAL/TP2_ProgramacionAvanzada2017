@@ -20,6 +20,26 @@ public class MenuController {
 			CheckInController checkInController = new CheckInController();
 			checkInController.checkIn();
 			break;
+		case 2:
+			
+			RegistrarConsumosController registrarConsumosController = new RegistrarConsumosController();
+			registrarConsumosController.registrarConsumos();
+			break;
+		case 3:
+			
+			ConsultarHabitacionesController consultarHabitacionesController = new ConsultarHabitacionesController();
+			consultarHabitacionesController.consultarHabitaciones();
+			break;
+		case 4:
+			
+			ConsultarConsumosController consultarConsumosController = new ConsultarConsumosController();
+			consultarConsumosController.consultarConsumos();
+			break;
+		case 5:
+			
+			CheckOutController checkOutController = new CheckOutController();
+			checkOutController.checkOut();
+			break;
 		case 0:
 
 //			SalidaSistemaController();
