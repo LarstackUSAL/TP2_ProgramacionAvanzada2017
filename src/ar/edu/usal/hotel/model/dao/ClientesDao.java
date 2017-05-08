@@ -2,11 +2,15 @@ package ar.edu.usal.hotel.model.dao;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import ar.edu.usal.hotel.exception.ClienteNoRegistradoException;
 import ar.edu.usal.hotel.model.dto.Clientes;
 import ar.edu.usal.hotel.model.dto.Cupones;
 import ar.edu.usal.hotel.utils.Validador;
@@ -16,7 +20,6 @@ public class ClientesDao {
 	private static ClientesDao clientesDaoInstance = null;
 	
 	private ArrayList<Clientes> clientes;
-	private ArrayList<Clientes> nuevosClientes;
 	
 	private ClientesDao(){
 		
@@ -41,15 +44,14 @@ public class ClientesDao {
 		// numeroDocumento	int(8)
 		// fechaNacimiento 	char(8)
 		File clientesFile = new File("./archivos/CLIENTES.txt");
+		
 		Scanner clientesScanner;
 		
 		try {
 			
 			clientesScanner = new Scanner(clientesFile);
-			
 			CuponesDao cuponesDao = CuponesDao.getInstance();
-			
-			
+				
 			while(clientesScanner.hasNextLine()){
 				
 				String clienteTxt = clientesScanner.nextLine();
@@ -59,7 +61,7 @@ public class ClientesDao {
 				int numeroDocumento = Integer.parseInt(clienteTxt.substring(40, 49));
 				String fechaNacimientoTxt = clienteTxt.substring(49, 56);
 				
-				Calendar fechaNacimiento = Validador.stringToCalendar(fechaNacimientoTxt);
+				Calendar fechaNacimiento = Validador.stringToCalendar(fechaNacimientoTxt, "yyyyMMdd");
 				
 				Cupones cuponCliente = null;
 				
@@ -78,6 +80,8 @@ public class ClientesDao {
 				this.clientes.add(cliente);			
 			}
 			
+			clientesScanner.close();
+			
 		}catch(InputMismatchException e){
 			
 			System.out.println("Se ha encontrado un tipo de dato insesperado.");
@@ -88,11 +92,47 @@ public class ClientesDao {
 		}catch(Exception e){
 			
 			System.out.println("Se ha verificado un error inesperado.");
-		}
-
+		}		
 	}
 
+	public void agregarClienteAlArchivo(Clientes cliente) throws IOException {
+		
+		FileWriter clientesFile = new FileWriter("./archivos/CLIENTES.txt", true);
+		PrintWriter clientesOut = new PrintWriter(clientesFile);
+		
+		// nombre 			char(20) 
+		// apellido			char(20)
+		// numeroDocumento	int(8)
+		// fechaNacimiento 	char(8)
+		
+		String numeroDocumento = String.valueOf(cliente.getNumeroDocumento()).trim();
+		String nombre = Validador.fillString(cliente.getNombre().trim(), 20," ", false);
+		String apellido = Validador.fillString(cliente.getApellido().trim(), 20," ", false);
+		String fechaNacimiento = Validador.calendarToString(cliente.getFechaNacimiento(), "yyyyMMdd").trim();
+		
+		clientesOut.println(nombre + apellido + numeroDocumento + fechaNacimiento);
+		
+		clientesOut.close();
+		
+		this.clientes.add(cliente);
+	}
+	
 	public ArrayList<Clientes> getClientes() {
 		return clientes;
+	}
+
+	public Clientes loadClientePorNumeroDocumento(int numeroDocumento) throws ClienteNoRegistradoException {
+		
+		for (int i = 0; i < this.getClientes().size(); i++) {
+
+			Clientes cliente = this.getClientes().get(i);
+
+			if(cliente.getNumeroDocumento() == numeroDocumento){
+				
+				return cliente;		
+			}
+		}
+
+		throw new ClienteNoRegistradoException(numeroDocumento);
 	}
 }

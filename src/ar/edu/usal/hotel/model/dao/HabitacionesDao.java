@@ -65,6 +65,8 @@ public class HabitacionesDao {
 				}
 			}
 			
+			habitacionesScanner.close();
+			
 		}catch(InputMismatchException e){
 			
 			System.out.println("Se ha encontrado un tipo de dato insesperado.");

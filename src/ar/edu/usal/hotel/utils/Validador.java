@@ -446,23 +446,28 @@ public class Validador {
 		return r.nextInt((max - min) + 1) + min;
 	}
 
-	public static String darFormatoFechaCalendar(Calendar fecha, String formatoFecha){
+	public static String calendarToString(Calendar fecha, String formatoFecha){
 
 		// "dd/MM/yyyy"
 		// "dd-MM-yyyy"
+		// "yyyyMMdd"	
 		
 		Date fechaDate = fecha.getTime();
 		DateFormat formatter = new SimpleDateFormat(formatoFecha);
 		return formatter.format(fechaDate);
 	}
 	
-	public static Calendar stringToCalendar(String fecha) {
+	public static Calendar stringToCalendar(String fecha, String formatoFecha) {
+		
+		// "dd/MM/yyyy"
+		// "dd-MM-yyyy"
+		// "yyyyMMdd"	
 		
 		Calendar calendar = Calendar.getInstance();
 		
 		try {
 
-			SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+			SimpleDateFormat format = new SimpleDateFormat(formatoFecha);
 			Date date;
 			date = format.parse(fecha);
 			calendar.setTime(date);
@@ -473,5 +478,26 @@ public class Validador {
 		}
 		
 		return calendar;		
+	}
+	
+	public static String fillString(String s, int longitudFinalString, String filler, boolean izquierda){
+					
+		if(s.length() < longitudFinalString){
+			
+			int espacios = (longitudFinalString-s.length());
+				
+			for (int i = 0; i < espacios; i++) {
+				
+				if(izquierda){
+				
+					s = filler + s;
+				}else{
+				
+					s += filler;
+				}
+			}
+		}
+		
+		return s;
 	}
 }

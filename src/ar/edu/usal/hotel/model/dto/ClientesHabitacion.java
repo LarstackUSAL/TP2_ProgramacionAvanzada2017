@@ -11,20 +11,22 @@ public class ClientesHabitacion {
 	private Calendar fechaEgreso;
 	private Calendar fechaIngreso;
 	private ArrayList<Consumos> consumos;
+	private Clientes clienteResponsable;
 	
 	public ClientesHabitacion(){}
 	
-	public ClientesHabitacion(ArrayList<Clientes> clientes,
+	public ClientesHabitacion(Clientes clienteResponsable, ArrayList<Clientes> clientes,
 			Habitaciones habitacion, int diasPermanencia,
-			Calendar fechaEgreso, Calendar fechaIngreso,
-			ArrayList<Consumos> consumos) {
+			Calendar fechaEgreso, Calendar fechaIngreso) {
+		
 		super();
+		this.setClienteResponsable(clienteResponsable);
 		this.clientes = clientes;
 		this.habitacion = habitacion;
 		this.diasPermanencia = diasPermanencia;
 		this.fechaEgreso = fechaEgreso;
 		this.fechaIngreso = fechaIngreso;
-		this.consumos = consumos;
+		this.consumos = new ArrayList();
 	}
 
 	public ArrayList<Clientes> getClientes() {
@@ -73,6 +75,14 @@ public class ClientesHabitacion {
 
 	public void setConsumos(ArrayList<Consumos> consumos) {
 		this.consumos = consumos;
+	}
+
+	public Clientes getClienteResponsable() {
+		return clienteResponsable;
+	}
+
+	public void setClienteResponsable(Clientes clienteResponsable) {
+		this.clienteResponsable = clienteResponsable;
 	}
 	
 	

@@ -10,9 +10,10 @@ public class Consumos {
 	
 	public Consumos(){}
 	
-	public Consumos(Calendar fecha, int cantidad) {
+	public Consumos(Calendar fecha, Productos producto, int cantidad) {
 		super();
 		this.fecha = fecha;
+		this.producto = producto;
 		this.cantidad = cantidad;
 	}
 
@@ -24,16 +25,6 @@ public class Consumos {
 		this.fecha = fecha;
 	}
 
-	public Productos getProducto() {
-		return producto;
-	}
-
-	public void setProducto(String codigo, String descripcion, double precio) {
-		
-		Productos producto = new Productos(codigo, descripcion, precio);
-		this.producto = producto;
-	}
-
 	public int getCantidad() {
 		return cantidad;
 	}
@@ -41,9 +32,12 @@ public class Consumos {
 	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
 	}
-	
-	
-	
-	
-	
+
+	public Productos getProducto() {
+		return producto;
+	}
+
+	public void setProducto(Productos producto) {
+		this.producto = producto;
+	}	
 }

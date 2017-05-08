@@ -2,11 +2,14 @@ package ar.edu.usal.hotel.controller;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
+import java.util.Date;
 
 import ar.edu.usal.hotel.exception.CategoriaNoValidaException;
+import ar.edu.usal.hotel.exception.ClienteNoRegistradoException;
 import ar.edu.usal.hotel.exception.NumeroHabitacionNoValidoException;
 import ar.edu.usal.hotel.model.dao.ClientesDao;
+import ar.edu.usal.hotel.model.dao.ClientesHabitacionDao;
+import ar.edu.usal.hotel.model.dao.ConsumosDao;
 import ar.edu.usal.hotel.model.dao.HabitacionesDao;
 import ar.edu.usal.hotel.model.dto.Clientes;
 import ar.edu.usal.hotel.model.dto.ClientesHabitacion;
@@ -18,8 +21,12 @@ import ar.edu.usal.hotel.view.CheckInView;
 public class CheckInController {
 
 	private CheckInView checkInView;
-	private ArrayList<Clientes> clientesCheckIn = new ArrayList();
-	private ArrayList<Clientes> nuevosClientes = new ArrayList();
+	private ArrayList<Clientes> clientesCheckIn;
+	private Clientes clienteResponsable;
+
+	public CheckInController() {
+		super();
+	}
 
 	public void checkIn() {
 		
@@ -29,72 +36,66 @@ public class CheckInController {
 
 	public void prepararDatosClientes() {
 
+		this.clientesCheckIn = new ArrayList();
+		boolean nuevoCheckIn = true;
 		checkInView = new CheckInView();
 		boolean agregarOtroCliente = true;
 		
 		do{
 			int numeroDocumento = checkInView.ingresarDatosPreliminares();
 			
-			boolean esClienteRegistrado = this.checkClienteRegistrado(numeroDocumento);
+			Clientes cliente = null;
 			
-			if(!esClienteRegistrado){
+			try {
 				
-				Clientes nuevoCliente = this.registrarCliente(numeroDocumento);
+				cliente = this.checkClienteRegistrado(numeroDocumento);
+			
+			} catch (ClienteNoRegistradoException e) {
 				
-				this.nuevosClientes.add(nuevoCliente);
-				this.clientesCheckIn.add(nuevoCliente);
+				e.printStackTrace();
+				cliente = e.registrarCliente(checkInView);
 			}
 			
+			this.clientesCheckIn.add(cliente);
+			
+			if(nuevoCheckIn){
+				
+				this.clienteResponsable = cliente;
+				nuevoCheckIn = false;
+			}
+						
 			agregarOtroCliente = checkInView.agregarOtroPasajero();
 			
 		}while(agregarOtroCliente);
 	}
 
-	private boolean checkClienteRegistrado(int numeroDocumento){
+	private Clientes checkClienteRegistrado(int numeroDocumento) throws ClienteNoRegistradoException{
 
 		String datosCliente = "";
-		
-		HabitacionesDao habitacionesDao = HabitacionesDao.getInstance();
+
 		ClientesDao clientes = ClientesDao.getInstance();
 
-		for (int i = 0; i < clientes.getClientes().size(); i++) {
+		Clientes cliente = clientes.loadClientePorNumeroDocumento(numeroDocumento);
 
-			Clientes cliente = clientes.getClientes().get(i);
+		Calendar fechaNacimientoCalendar = cliente.getFechaNacimiento();
+		String fechaNacimiento = Validador.calendarToString(fechaNacimientoCalendar, "dd-MM-yyyy");
 
-			if(cliente.getNumeroDocumento() == numeroDocumento){
+		Cupones cuponCliente = cliente.getCupon();
+		String tieneCupon = cuponCliente!=null ? "El cliente tiene cupones de descuento." : 
+			"El cliente no posee cupones de descuento.";
 
-				Calendar fechaNacimientoCalendar = cliente.getFechaNacimiento();
-				String fechaNacimiento = Validador.darFormatoFechaCalendar(fechaNacimientoCalendar, "dd-MM-yyyy");
-
-				Cupones cuponCliente = cliente.getCupon();
-				String tieneCupon = cuponCliente!=null ? "El cliente tiene cupones de descuento." : 
-					"El cliente no posee cupones de descuento.";
-
-				datosCliente = 
-						"Nombre: " + cliente.getNombre() + "\n"
-								+ "Apellido: " + cliente.getApellido() + "\n"
-								+ "Fecha Nacimiento: " + fechaNacimiento + "\n"
-								+ tieneCupon;
-
-				checkInView.mostrarDatosCliente(datosCliente);
-				
-				return true;
-			}
-		}
+		datosCliente = 
+				"Nombre: " + cliente.getNombre() + "\n"
+						+ "Apellido: " + cliente.getApellido() + "\n"
+						+ "Fecha Nacimiento: " + fechaNacimiento + "\n"
+						+ tieneCupon;
 
 		checkInView.mostrarDatosCliente(datosCliente);
-		
-		return false;
+
+		return cliente;
 	}
-	
-	private Clientes registrarCliente(int numeroDocumento) {
-		
-		String nombre = checkInView.ingresarNombre();
-		String apellido = checkInView.ingresarApellido();
-		Calendar fechaNacimiento = checkInView.ingresarFechaNacimiento();
-		
-		return new Clientes(numeroDocumento, nombre, apellido, fechaNacimiento);
-	}
+
+
 	
 	private void asignarHabitacion() {
 		
@@ -129,7 +130,7 @@ public class CheckInController {
 		for (int i = 0; i < habitaciones.length; i++) {
 			
 			Habitaciones habitacionIterada = habitaciones[i];
-			if(habitacionIterada.getCapacidad() == capacidad){
+			if(habitacionIterada.getCapacidad() >= capacidad && habitacionIterada.isDisponible()){
 				
 				habitacionesTmp.add(habitacionIterada);
 				
@@ -144,7 +145,7 @@ public class CheckInController {
 		
 		ArrayList<String> habitacionesAconsejadas = new ArrayList();
 		
-		if(habitacionCheckIn == null){
+		if(habitacionCheckIn == null && !habitacionesTmp.isEmpty()){
 			
 			for (int i = 0; i < habitacionesTmp.size(); i++) {
 				
@@ -187,8 +188,27 @@ public class CheckInController {
 			}
 		}	
 		
-		ClientesHabitacion clientesHabitacionCheckIn = new ClientesHabitacion(
-				clientesCheckIn, habitacionCheckIn, diasPermanencia, fechaEgreso, fechaIngreso, consumos)
+		String fechaEgresoString = null;
+		
+		if(habitacionCheckIn != null){
+			ClientesHabitacionDao clientesHabitacionDao = ClientesHabitacionDao.getInstance();
+			Calendar fechaIngreso = Calendar.getInstance();
+			fechaIngreso.setTime(new Date());
+			Calendar fechaEgreso = clientesHabitacionDao.calcularFechaEgreso(diasPermanencia);
+			
+			ClientesHabitacion clientesHabitacionCheckIn = new ClientesHabitacion(
+					this.clienteResponsable, clientesCheckIn, habitacionCheckIn, diasPermanencia, fechaEgreso, fechaIngreso);
+			
+			clientesHabitacionDao.getClientesHabitacion().add(clientesHabitacionCheckIn);
+			
+			habitacionCheckIn.setDisponible(false);
+			
+			ConsumosDao.crearArchivoConsumos(habitacionCheckIn.getNumero());
+			
+			fechaEgresoString = Validador.calendarToString(fechaEgreso, "dd-MM-yyyy");
+		}
+		
+		checkInView.mostrarFechaEgreso(fechaEgresoString);
 	}
 	
 	private boolean validarNumeroHabitacion(ArrayList<Habitaciones> habitacionesTmp, int numeroHabitacion) throws NumeroHabitacionNoValidoException {
