@@ -7,8 +7,9 @@ import java.util.Scanner;
 
 import ar.edu.usal.hotel.model.dto.Habitaciones;
 import ar.edu.usal.hotel.model.dto.Precios;
+import ar.edu.usal.hotel.model.interfaces.ICalculoImportes;
 
-public class HabitacionesDao {
+public class HabitacionesDao implements ICalculoImportes{
 	
 	public static final int MAX_HABITACIONES = 150;
 	
@@ -94,6 +95,11 @@ public class HabitacionesDao {
 	public Habitaciones[] getHabitaciones() {
 		return habitaciones;
 	}
-	
+
+	@Override
+	public double calcularImporte(Object obj) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 }

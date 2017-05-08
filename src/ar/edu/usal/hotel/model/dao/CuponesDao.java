@@ -8,9 +8,10 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import ar.edu.usal.hotel.model.dto.Cupones;
+import ar.edu.usal.hotel.model.interfaces.ICalculoImportes;
 import ar.edu.usal.hotel.utils.Validador;
 
-public class CuponesDao {
+public class CuponesDao implements ICalculoImportes{
 
 	private ArrayList<Cupones> cupones;
 

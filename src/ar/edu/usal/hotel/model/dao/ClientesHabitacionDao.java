@@ -7,8 +7,9 @@ import java.util.Date;
 import ar.edu.usal.hotel.model.dto.Clientes;
 import ar.edu.usal.hotel.model.dto.ClientesHabitacion;
 import ar.edu.usal.hotel.model.dto.Habitaciones;
+import ar.edu.usal.hotel.model.interfaces.ICalculoImportes;
 
-public class ClientesHabitacionDao {
+public class ClientesHabitacionDao implements ICalculoImportes{
 
 	private static ClientesHabitacionDao clientesHabitacionInstance = null;
 	
@@ -76,6 +77,22 @@ public class ClientesHabitacionDao {
 			if(clientesHabitacion.getHabitacion().getNumero() == numeroHabitacion){
 				
 				return clientesHabitacion.getClientes();
+			}
+			
+		}
+		
+		return null;
+	}
+	
+	public ClientesHabitacion loadClientesHabitacionPorNumero(int numeroHabitacion){
+		
+		for (int i = 0; i < this.clientesHabitacion.size(); i++) {
+			
+			ClientesHabitacion clientesHabitacion = this.clientesHabitacion.get(i);
+			
+			if(clientesHabitacion.getHabitacion().getNumero() == numeroHabitacion){
+				
+				return clientesHabitacion;
 			}
 			
 		}

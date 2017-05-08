@@ -15,9 +15,10 @@ import ar.edu.usal.hotel.exception.HabitacionSinConsumoException;
 import ar.edu.usal.hotel.exception.ProductoInexistenteException;
 import ar.edu.usal.hotel.model.dto.Consumos;
 import ar.edu.usal.hotel.model.dto.Productos;
+import ar.edu.usal.hotel.model.interfaces.ICalculoImportes;
 import ar.edu.usal.hotel.utils.Validador;
 
-public class ConsumosDao {
+public class ConsumosDao implements ICalculoImportes{
 
 	private static ConsumosDao consumosDaoInstance = null;
 	private HashMap<Integer,ArrayList<Consumos>> consumosHabitaciones;
@@ -148,6 +149,13 @@ public class ConsumosDao {
 		ArrayList<Consumos> consumosHabitacion = this.consumosHabitaciones.get(numeroHabitacion);
 		
 		consumosHabitacion.add(consumo);
+	}
+
+	@Override
+	public double calcularImporte(Object obj) {
+		
+		int numeroHabitacion = (int) obj;
+		return 0;
 	}
 
 }
