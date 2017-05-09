@@ -9,14 +9,14 @@ public class Cupones {
 	private String apellido;
 	private Calendar fechaCheckIn;
 	private double totalConsumido;
-	private double descuentoCalculado;
 	private Calendar fechaVencimiento;
+	private double descuentoCalculado;
+	private boolean esUtilizado;
 
 	public Cupones(){}
 
 	public Cupones(int numeroDocumento, String nombre, String apellido,
-			Calendar fechaCheckIn, double totalConsumido,
-			double descuentoCalculado, Calendar fechaVencimiento) {
+			Calendar fechaCheckIn, double totalConsumido, double descuentoCalculado, Calendar fechaVencimiento, boolean esUtilizado) {
 		
 		super();
 		this.numeroDocumento = numeroDocumento;
@@ -26,6 +26,7 @@ public class Cupones {
 		this.totalConsumido = totalConsumido;
 		this.descuentoCalculado = descuentoCalculado;
 		this.fechaVencimiento = fechaVencimiento;
+		this.esUtilizado = esUtilizado;
 	}
 
 	public int getNumeroDocumento() {
@@ -68,6 +69,14 @@ public class Cupones {
 		this.totalConsumido = totalConsumido;
 	}
 
+	public Calendar getFechaVencimiento() {
+		return fechaVencimiento;
+	}
+
+	public void setFechaVencimiento(Calendar fechaVencimiento) {
+		this.fechaVencimiento = fechaVencimiento;
+	}
+
 	public double getDescuentoCalculado() {
 		return descuentoCalculado;
 	}
@@ -76,11 +85,11 @@ public class Cupones {
 		this.descuentoCalculado = descuentoCalculado;
 	}
 
-	public Calendar getFechaVencimiento() {
-		return fechaVencimiento;
+	public boolean isEsUtilizado() {
+		return esUtilizado;
 	}
 
-	public void setFechaVencimiento(Calendar fechaVencimiento) {
-		this.fechaVencimiento = fechaVencimiento;
+	public void setEsUtilizado(boolean esUtilizado) {
+		this.esUtilizado = esUtilizado;
 	}
 }

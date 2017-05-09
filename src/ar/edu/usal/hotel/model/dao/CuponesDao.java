@@ -2,6 +2,9 @@ package ar.edu.usal.hotel.model.dao;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.InputMismatchException;
@@ -62,7 +65,9 @@ public class CuponesDao {
 
 					Calendar fechaVencimiento = Validador.stringToCalendar(fechaCheckInTxt, "yyyyMMdd");
 
-					Cupones cuponDto = new Cupones(numeroDocumento, nombre, apellido, fechaCheckIn, totalConsumido, descuentoCalculado, fechaVencimiento);
+					boolean esUtilizado = Boolean.parseBoolean(cuponesArray[7]);
+					
+					Cupones cuponDto = new Cupones(numeroDocumento, nombre, apellido, fechaCheckIn, totalConsumido, descuentoCalculado, fechaVencimiento, esUtilizado);
 
 					cupones.add(cuponDto);
 				}
@@ -100,4 +105,52 @@ public class CuponesDao {
 		
 		return null;
 	}
+
+	public void grabarCupon(int numeroDocumento, String nombre, String apellido, Calendar fechaCheckIn, double totalConsumido, double descuentoCalculado, Calendar fechaVencimiento) throws IOException {
+
+		Cupones cuponNuevo = new Cupones(numeroDocumento, nombre, apellido, fechaCheckIn, totalConsumido, descuentoCalculado, fechaVencimiento, false);
+		
+		this.cupones.add(cuponNuevo);
+		
+		FileWriter archivoCupon = new FileWriter("./archivos/CUPONES.txt",true);
+		PrintWriter cuponOut = new PrintWriter(archivoCupon);
+		
+		cuponOut.println(numeroDocumento + ";" + nombre + ";" + apellido + ";" + 
+				Validador.calendarToString(fechaCheckIn, "yyyyMMdd") + ";" + totalConsumido + ";" +
+				descuentoCalculado + ";" +Validador.calendarToString(fechaVencimiento, "yyyyMMdd") +
+				";" + String.valueOf(false));
+		
+		
+		cuponOut.close();
+		archivoCupon.close();		
+	}
+
+	public void actualizarCupones() throws IOException {
+		
+		FileWriter cuponesFile = new FileWriter("./archivos/CUPONES.txt");
+		PrintWriter cuponesOut = new PrintWriter(cuponesFile);
+		
+		for(int i=0; i < this.cupones.size(); i++)
+		{
+			Cupones cupon = this.cupones.get(i);
+			
+			String numeroDocumento = String.valueOf(cupon.getNumeroDocumento());		
+			String nombre = cupon.getNombre();				
+			String apellido = cupon.getApellido();
+			String fechaCheckInTxt = Validador.calendarToString(cupon.getFechaCheckIn(), "yyyyMMdd");
+			String totalConsumido = String.valueOf(cupon.getTotalConsumido());
+			String descuentoCalculado = String.valueOf(cupon.getDescuentoCalculado());
+			String fechaVencimientoTxt = Validador.calendarToString(cupon.getFechaVencimiento(), "yyyyMMdd");
+			String esUtilizado = String.valueOf(cupon.isEsUtilizado());
+			
+			cuponesOut.println(numeroDocumento + ";" + nombre + ";" + apellido + ";" + 
+					fechaCheckInTxt + ";" + totalConsumido + ";" +
+					descuentoCalculado + ";" + fechaVencimientoTxt + ";" + esUtilizado);
+		}
+		
+		cuponesOut.close();
+		cuponesFile.close();
+	}
+	
+	
 }

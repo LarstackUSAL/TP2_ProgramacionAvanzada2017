@@ -1,5 +1,6 @@
 package ar.edu.usal.hotel.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import ar.edu.usal.hotel.exception.NumeroHabitacionNoValidoException;
@@ -61,8 +62,18 @@ public class CheckOutController  implements ICalculoImportes {
 		Cupones cupon = cuponesDao.loadCuponCliente(cliente);
 		
 		if(cupon != null){
-		
-			calculoConsumos = calculoConsumos - (calculoConsumos * ICalculoImportes.PORCENTAJE_DESCUENTO);
+			
+			try {
+				
+				cupon.setEsUtilizado(true);
+				cuponesDao.actualizarCupones();
+				
+				calculoConsumos = calculoConsumos - cupon.getDescuentoCalculado();
+				
+			} catch (IOException e) {
+				
+				checkOutView.errorActualizarCupones();
+			}
 		}
 		
 		return calculoEstadia + calculoConsumos;

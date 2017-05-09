@@ -1,7 +1,5 @@
 package ar.edu.usal.hotel.controller;
 
-import ar.edu.usal.hotel.model.dao.ClientesDao;
-import ar.edu.usal.hotel.model.dao.HabitacionesDao;
 import ar.edu.usal.hotel.view.MenuView;
 
 public class MenuController {
@@ -43,7 +41,7 @@ public class MenuController {
 		case 6:
 			
 			GeneracionCuponesController generacionCuponesController = new GeneracionCuponesController();
-			generacionCuponesController.generarCupones();
+			generacionCuponesController.generarCupones(args);
 			break;
 		case 7:
 
