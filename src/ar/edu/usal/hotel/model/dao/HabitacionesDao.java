@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import ar.edu.usal.hotel.model.dto.ClientesHabitacion;
 import ar.edu.usal.hotel.model.dto.Habitaciones;
 import ar.edu.usal.hotel.model.dto.Precios;
 import ar.edu.usal.hotel.model.interfaces.ICalculoImportes;
@@ -96,10 +97,29 @@ public class HabitacionesDao implements ICalculoImportes{
 		return habitaciones;
 	}
 
+	public Habitaciones loadHabitacionPorNumero(int numeroHabitacion){
+		
+		for (int i = 0; i < this.habitaciones.length; i++) {
+			
+			Habitaciones habitacion = this.habitaciones[i];
+			
+			if(habitacion.getNumero() == numeroHabitacion){
+				
+				return habitacion;
+			}
+		}
+		
+		return null;
+	}
+	
 	@Override
-	public double calcularImporte(Object obj) {
-		// TODO Auto-generated method stub
-		return 0;
+	public double calcularImporte(ClientesHabitacion clientesHabitacion) {
+		
+		Habitaciones habitacion = clientesHabitacion.getHabitacion();
+		
+		double importeHabitacion = habitacion.getPrecio().getPrecio();
+		
+		return importeHabitacion * clientesHabitacion.getDiasPermanencia();		
 	}
 	
 }

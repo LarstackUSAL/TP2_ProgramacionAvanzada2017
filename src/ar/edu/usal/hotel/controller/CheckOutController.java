@@ -35,17 +35,15 @@ public class CheckOutController  implements ICalculoImportes {
 	}
 
 	@Override
-	public double calcularImporte(Object obj) {
+	public double calcularImporte(ClientesHabitacion clientesHabitacion) {
 		
 		double total = 0.0;
-		
-		ClientesHabitacion clientesHabitacion = (ClientesHabitacion) obj;
 		
 		int numeroHabitacion = clientesHabitacion.getHabitacion().getNumero();
 		
 		HabitacionesDao habitacionesDao = HabitacionesDao.getInstance();
 		
-		double calculoEstadia = habitacionesDao.calcularImporte(numeroHabitacion);
+		double calculoEstadia = habitacionesDao.calcularImporte(clientesHabitacion);
 
 		if(clientesHabitacion.getDiasPermanencia() > ICalculoImportes.DIAS_PARA_DESCUENTO){
 			
@@ -56,7 +54,7 @@ public class CheckOutController  implements ICalculoImportes {
 		
 		ConsumosDao consumosDao = ConsumosDao.getInstance(numeroHabitacion);
 		
-		double calculoConsumos = consumosDao.calcularImporte(numeroHabitacion);
+		double calculoConsumos = consumosDao.calcularImporte(clientesHabitacion);
 		
 		CuponesDao cuponesDao = CuponesDao.getInstance();
 		

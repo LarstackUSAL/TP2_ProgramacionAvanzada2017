@@ -11,7 +11,10 @@ public class MenuView {
 				"1 - Check-in.",
 				"2 - Registrar consumo.",
 				"3 - Consultar habitaciones.",
-				"4 - Consultar consumos."
+				"4 - Consultar consumos.",
+				"5 - Check-out.",
+				"6 - Generar cupones.",
+				"7 - Salir del sistema."
 		};
 
 		System.out.println();

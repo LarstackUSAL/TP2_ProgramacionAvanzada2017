@@ -13,6 +13,7 @@ import java.util.Scanner;
 
 import ar.edu.usal.hotel.exception.HabitacionSinConsumoException;
 import ar.edu.usal.hotel.exception.ProductoInexistenteException;
+import ar.edu.usal.hotel.model.dto.ClientesHabitacion;
 import ar.edu.usal.hotel.model.dto.Consumos;
 import ar.edu.usal.hotel.model.dto.Productos;
 import ar.edu.usal.hotel.model.interfaces.ICalculoImportes;
@@ -152,10 +153,38 @@ public class ConsumosDao implements ICalculoImportes{
 	}
 
 	@Override
-	public double calcularImporte(Object obj) {
+	public double calcularImporte(ClientesHabitacion clientesHabitacion) {
 		
-		int numeroHabitacion = (int) obj;
-		return 0;
+		int numeroHabitacion = clientesHabitacion.getHabitacion().getNumero();
+		ArrayList<Consumos> consumos = null; 
+		
+		try {
+		
+			consumos = this.getConsumosHabitacionPorNumero(numeroHabitacion);
+		
+		} catch (HabitacionSinConsumoException e) {
+			
+			e.printStackTrace();
+		}
+		
+		double importeConsumosTotal = 0.0; 
+		
+		if(consumos != null && !consumos.isEmpty()){
+			
+			for (int i = 0; i < consumos.size(); i++) {
+				
+				Consumos consumo = consumos.get(i);
+				
+				double importeIndividual = consumo.getProducto().getPrecio();
+				
+				importeIndividual = importeIndividual * consumo.getCantidad();
+				
+				importeConsumosTotal += importeIndividual;
+			}
+		}
+		
+		return importeConsumosTotal;
+		
 	}
 
 }

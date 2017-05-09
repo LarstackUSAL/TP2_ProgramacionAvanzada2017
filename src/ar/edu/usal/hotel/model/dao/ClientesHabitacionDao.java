@@ -7,9 +7,8 @@ import java.util.Date;
 import ar.edu.usal.hotel.model.dto.Clientes;
 import ar.edu.usal.hotel.model.dto.ClientesHabitacion;
 import ar.edu.usal.hotel.model.dto.Habitaciones;
-import ar.edu.usal.hotel.model.interfaces.ICalculoImportes;
 
-public class ClientesHabitacionDao implements ICalculoImportes{
+public class ClientesHabitacionDao {
 
 	private static ClientesHabitacionDao clientesHabitacionInstance = null;
 	

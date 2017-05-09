@@ -40,7 +40,12 @@ public class MenuController {
 			CheckOutController checkOutController = new CheckOutController();
 			checkOutController.checkOut();
 			break;
-		case 0:
+		case 6:
+			
+			GeneracionCuponesController generacionCuponesController = new GeneracionCuponesController();
+			generacionCuponesController.generarCupones();
+			break;
+		case 7:
 
 //			SalidaSistemaController();
 			break;

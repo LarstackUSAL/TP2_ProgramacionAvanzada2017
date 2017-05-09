@@ -7,11 +7,11 @@ import java.util.Calendar;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import ar.edu.usal.hotel.model.dto.Clientes;
 import ar.edu.usal.hotel.model.dto.Cupones;
-import ar.edu.usal.hotel.model.interfaces.ICalculoImportes;
 import ar.edu.usal.hotel.utils.Validador;
 
-public class CuponesDao implements ICalculoImportes{
+public class CuponesDao {
 
 	private ArrayList<Cupones> cupones;
 
@@ -83,5 +83,21 @@ public class CuponesDao implements ICalculoImportes{
 
 	public ArrayList<Cupones> getCupones() {
 		return cupones;
+	}
+
+	public Cupones loadCuponCliente(Clientes cliente) {
+		
+		for (int i = 0; i < cupones.size(); i++) {
+			
+			Cupones cupon = cupones.get(i);
+			
+			if(cupon.getNumeroDocumento() == cliente.getNumeroDocumento()){
+				
+				return cupon;
+			}
+			
+		}
+		
+		return null;
 	}
 }
