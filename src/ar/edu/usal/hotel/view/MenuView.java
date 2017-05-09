@@ -14,7 +14,7 @@ public class MenuView {
 				"4 - Consultar consumos.",
 				"5 - Check-out.",
 				"6 - Generar cupones.",
-				"7 - Salir del sistema."
+				"0 - Salir del sistema."
 		};
 
 		System.out.println();
@@ -23,7 +23,7 @@ public class MenuView {
 			System.out.println(menu[i]);
 		}
 		System.out.println();
-		int opcion = Validador.insertInt("Elegir una opcion: ", 1, menu.length, false);
+		int opcion = Validador.insertInt("Elegir una opcion: ", 0, menu.length-1, false);
 
 		return opcion;
 	}

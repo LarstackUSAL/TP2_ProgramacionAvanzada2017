@@ -56,10 +56,11 @@ public class ClientesDao {
 				
 				String clienteTxt = clientesScanner.nextLine();
 				
-				String nombre = clienteTxt.substring(0, 20);
-				String apellido = clienteTxt.substring(20, 40);
-				int numeroDocumento = Integer.parseInt(clienteTxt.substring(40, 49));
-				String fechaNacimientoTxt = clienteTxt.substring(49, 56);
+				int numeroDocumento = Integer.parseInt(clienteTxt.substring(0, 8));
+				String nombre = clienteTxt.substring(8, 28);
+				String apellido = clienteTxt.substring(28, 48);
+				
+				String fechaNacimientoTxt = clienteTxt.substring(48, 56);
 				
 				Calendar fechaNacimiento = Validador.stringToCalendar(fechaNacimientoTxt, "yyyyMMdd");
 				
