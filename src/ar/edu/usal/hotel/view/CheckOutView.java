@@ -21,6 +21,6 @@ public class CheckOutView {
 	public void errorActualizarCupones() {
 
 		System.out.println("Se ha verificado un error al actualizar el archivo de cupones.");
-		System.out.println("El descuento no serà aplicado.");
+		System.out.println("El descuento no ser&aacute aplicado.");
 	}
 }

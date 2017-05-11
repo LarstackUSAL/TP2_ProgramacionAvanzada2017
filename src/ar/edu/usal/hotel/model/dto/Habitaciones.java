@@ -13,13 +13,14 @@ public class Habitaciones {
 	public Habitaciones(){}
 	
 	public Habitaciones(int numero, int capacidad, char categoria,
-			boolean tieneBalcon, String comentario) {
+			boolean tieneBalcon, String comentario, Precios precio) {
 		super();
 		this.numero = numero;
 		this.capacidad = capacidad;
 		this.categoria = categoria;
 		this.tieneBalcon = tieneBalcon;
 		this.comentario = comentario;
+		this.precio = precio;
 		this.disponible = true;
 	}
 

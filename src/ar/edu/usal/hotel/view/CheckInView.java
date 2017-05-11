@@ -81,4 +81,10 @@ public class CheckInView {
 			System.out.println("No hay habitaciones disponibles con esa capacidad.");
 		}		
 	}
+
+	public void errorActualizarArchivo() {
+
+		System.out.println("Se ha verificado un error al actualizar el archivo de habitaciones.");
+		System.out.println("El check-in no ser&aacute efectuado.");		
+	}
 }

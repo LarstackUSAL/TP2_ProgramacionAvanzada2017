@@ -2,7 +2,7 @@ package ar.edu.usal.hotel.exception;
 
 public class CategoriaNoValidaException extends Exception {
 	
-	private int categoriaIngresada;
+	private char categoriaIngresada;
 	
 	
 	public CategoriaNoValidaException(char categoriaIngresada) {

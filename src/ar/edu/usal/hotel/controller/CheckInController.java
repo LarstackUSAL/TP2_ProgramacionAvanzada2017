@@ -1,5 +1,6 @@
 package ar.edu.usal.hotel.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -134,7 +135,7 @@ public class CheckInController {
 				
 				habitacionesTmp.add(habitacionIterada);
 				
-				if(habitacionIterada.getCategoria() == categoria
+				if(Validador.compararCaracteresIgnoreCase(habitacionIterada.getCategoria(), categoria)
 						&& habitacionIterada.isTieneBalcon() == tieneBalcon){
 					
 					habitacionCheckIn = habitacionIterada;
@@ -205,6 +206,18 @@ public class CheckInController {
 			
 			ConsumosDao.crearArchivoConsumos(habitacionCheckIn.getNumero());
 			
+			try {
+				
+				clientesHabitacionDao.actualizarArchivo();
+				habitacionesDao.actualizarArchivo();
+				
+			} catch (IOException e) {
+				
+				habitacionCheckIn.setDisponible(false);
+				clientesHabitacionDao.getClientesHabitacion().remove(clientesHabitacionCheckIn);
+				checkInView.errorActualizarArchivo();
+			}
+			
 			fechaEgresoString = Validador.calendarToString(fechaEgreso, "dd-MM-yyyy");
 		}
 		
@@ -226,7 +239,9 @@ public class CheckInController {
 		
 		for (int i = 0; i < HabitacionesDao.CATEGORIAS_VALIDAS.length; i++) {
 			
-			if(categoria == HabitacionesDao.CATEGORIAS_VALIDAS[i]){
+			String charTmp = String.valueOf(categoria);
+			
+			if(charTmp.equalsIgnoreCase(String.valueOf(HabitacionesDao.CATEGORIAS_VALIDAS[i]))){
 				
 				return true;
 			}

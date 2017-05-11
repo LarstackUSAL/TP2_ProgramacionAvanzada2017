@@ -500,4 +500,9 @@ public class Validador {
 		
 		return s;
 	}
+	
+	public static boolean compararCaracteresIgnoreCase(char a, char b){
+		
+		return String.valueOf(a).equalsIgnoreCase(String.valueOf(b));
+	}
 }

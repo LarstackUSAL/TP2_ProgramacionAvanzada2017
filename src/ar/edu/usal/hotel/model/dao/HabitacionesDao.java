@@ -2,13 +2,18 @@ package ar.edu.usal.hotel.model.dao;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import ar.edu.usal.hotel.model.dto.ClientesHabitacion;
+import ar.edu.usal.hotel.model.dto.Cupones;
 import ar.edu.usal.hotel.model.dto.Habitaciones;
 import ar.edu.usal.hotel.model.dto.Precios;
 import ar.edu.usal.hotel.model.interfaces.ICalculoImportes;
+import ar.edu.usal.hotel.utils.Validador;
 
 public class HabitacionesDao implements ICalculoImportes{
 	
@@ -41,8 +46,7 @@ public class HabitacionesDao implements ICalculoImportes{
 		File habitacionesTxt = new File("./archivos/HABITACIONES.txt");
 		Scanner habitacionesScanner;
 		
-		PreciosDao precios = new PreciosDao();
-		precios.loadPrecios();
+		PreciosDao precios = PreciosDao.getInstance();
 		
 		try {
 			
@@ -59,9 +63,9 @@ public class HabitacionesDao implements ICalculoImportes{
 				boolean tieneBalcon = Boolean.parseBoolean(habitacionArray[3]);
 				String comentario = habitacionArray[4];
 				
-				Habitaciones habitacion = new Habitaciones(numero, capacidad, categoria, tieneBalcon, comentario);
 				Precios precio = precios.cargarPrecioHabitacion(categoria, capacidad);
-			
+				Habitaciones habitacion = new Habitaciones(numero, capacidad, categoria, tieneBalcon, comentario, precio);
+				
 				if(!this.agregarHabitacion(habitacion)){
 					System.out.println("ERROR! Ya se han cargado las 150 habitaciones.");
 				}
@@ -120,6 +124,30 @@ public class HabitacionesDao implements ICalculoImportes{
 		double importeHabitacion = habitacion.getPrecio().getPrecio();
 		
 		return importeHabitacion * clientesHabitacion.getDiasPermanencia();		
+	}
+
+	public void actualizarArchivo() throws IOException {
+		
+		FileWriter habitacionesFile = new FileWriter("./archivos/HABITACIONES.txt");
+		PrintWriter habitacionesOut = new PrintWriter(habitacionesFile);
+
+		for(int i=0; i < this.habitaciones.length; i++)
+		{
+			Habitaciones habitacion = this.habitaciones[i];
+			
+			String numero = String.valueOf(habitacion.getNumero());
+			String capacidad = String.valueOf(habitacion.getCapacidad());
+			String categoria = String.valueOf(habitacion.getCategoria());
+			String tieneBalcon = String.valueOf(habitacion.isTieneBalcon());
+			String comentario = habitacion.getComentario();
+			String disponible = String.valueOf(habitacion.isDisponible());
+			
+			habitacionesOut.println(numero + ";" + capacidad + ";" + categoria + ";" + 
+					tieneBalcon + ";" + comentario + ";" + disponible);
+		}
+
+		habitacionesOut.close();
+		habitacionesFile.close();
 	}
 	
 }

@@ -49,9 +49,9 @@ public class ProductosDao {
 				
 				String productoTxt = productosScanner.nextLine();
 				
-				String codigo = productoTxt.substring(0, 5).trim();
-				String descripcion = productoTxt.substring(5, 20).trim();
-				double precio = Double.parseDouble(productoTxt.substring(20, 27).trim());
+				String codigo = productoTxt.substring(0, 3).trim();
+				String descripcion = productoTxt.substring(3, 33).trim();
+				double precio = Double.parseDouble(productoTxt.substring(33, 40).trim());
 				
 				Productos producto = new Productos(codigo, descripcion, precio); 
 				

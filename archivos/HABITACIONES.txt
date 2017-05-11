@@ -100,7 +100,7 @@
 100;4;B;false;Acceso a spa;true
 101;1;C;true;Acceso a piletas;true
 102;2;C;false;Acceso a piletas;true
-103;3;C;true;Acceso a piletas;true
+103;3;C;true;Acceso a piletas;false
 104;4;C;false;Acceso a piletas;true
 105;1;C;true;Acceso a piletas;true
 106;2;C;false;Acceso a piletas;true

@@ -15,12 +15,14 @@ public class RegistrarConsumosView {
 	
 	public int ingresarNumeroDocumento(ArrayList<String> clientesList) {
 		
+		System.out.println("\nLISTA DE CLIENTES EN EL HOTEL");
+		
 		for (int i = 0; i < clientesList.size(); i++) {
 			
 			System.out.println(clientesList.get(i));
 		}
 		
-		int numeroDocumento = Validador.insertInt("Ingresar numero de documento: ", 1, 99999999, false);
+		int numeroDocumento = Validador.insertInt("Ingresar numero de documento del cliente: ", 1, 99999999, false);
 		
 		return numeroDocumento;
 	}

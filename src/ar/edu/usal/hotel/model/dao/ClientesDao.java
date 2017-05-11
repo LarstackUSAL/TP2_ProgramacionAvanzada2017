@@ -90,6 +90,10 @@ public class ClientesDao {
 		}catch (FileNotFoundException e) {
 			
 			System.out.println("No se ha encontrado el archivo.");
+		}catch(StringIndexOutOfBoundsException e){
+			
+			System.out.println("Se ha verificado un error en el parseo del archivo de cupones.");
+				
 		}catch(Exception e){
 			
 			System.out.println("Se ha verificado un error inesperado.");
@@ -106,12 +110,12 @@ public class ClientesDao {
 		// numeroDocumento	int(8)
 		// fechaNacimiento 	char(8)
 		
-		String numeroDocumento = String.valueOf(cliente.getNumeroDocumento()).trim();
+		String numeroDocumento = Validador.fillString(String.valueOf(cliente.getNumeroDocumento()).trim(), 8,"0", true);
 		String nombre = Validador.fillString(cliente.getNombre().trim(), 20," ", false);
 		String apellido = Validador.fillString(cliente.getApellido().trim(), 20," ", false);
 		String fechaNacimiento = Validador.calendarToString(cliente.getFechaNacimiento(), "yyyyMMdd").trim();
 		
-		clientesOut.println(nombre + apellido + numeroDocumento + fechaNacimiento);
+		clientesOut.println(numeroDocumento + nombre + apellido + fechaNacimiento);
 		
 		clientesOut.close();
 		
