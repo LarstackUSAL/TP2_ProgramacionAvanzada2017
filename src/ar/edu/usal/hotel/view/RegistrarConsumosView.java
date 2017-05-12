@@ -15,7 +15,7 @@ public class RegistrarConsumosView {
 	
 	public int ingresarNumeroDocumento(ArrayList<String> clientesList) {
 		
-		System.out.println("\nLISTA DE CLIENTES EN EL HOTEL");
+		System.out.println("\nLISTA DE CLIENTES EN EL HOTEL: ");
 		
 		for (int i = 0; i < clientesList.size(); i++) {
 			

@@ -30,7 +30,7 @@ public class CheckInController {
 	}
 
 	public void checkIn() {
-		
+
 		this.prepararDatosClientes();
 		this.asignarHabitacion();
 	}
@@ -41,32 +41,38 @@ public class CheckInController {
 		boolean nuevoCheckIn = true;
 		checkInView = new CheckInView();
 		boolean agregarOtroCliente = true;
-		
+
 		do{
 			int numeroDocumento = checkInView.ingresarDatosPreliminares();
-			
+
 			Clientes cliente = null;
-			
+
 			try {
-				
+
 				cliente = this.checkClienteRegistrado(numeroDocumento);
-			
+
 			} catch (ClienteNoRegistradoException e) {
-				
+
 				e.printStackTrace();
 				cliente = e.registrarCliente(checkInView);
 			}
-			
-			this.clientesCheckIn.add(cliente);
-			
-			if(nuevoCheckIn){
+
+			//El cliente no debe ya estar alojado en el hotel.
+			if(ClientesHabitacionDao.getInstance().loadHabitacionDelCliente(cliente) == null){
+
+				this.clientesCheckIn.add(cliente);
+
+				if(nuevoCheckIn){
+
+					this.clienteResponsable = cliente;
+					nuevoCheckIn = false;
+				}
+			}else{
 				
-				this.clienteResponsable = cliente;
-				nuevoCheckIn = false;
+				
 			}
-						
 			agregarOtroCliente = checkInView.agregarOtroPasajero();
-			
+
 		}while(agregarOtroCliente);
 	}
 
@@ -97,156 +103,156 @@ public class CheckInController {
 	}
 
 
-	
+
 	private void asignarHabitacion() {
-		
+
 		boolean categoriaValida = false; 
 		char categoria;
-		
+
 		do{
-			
+
 			categoria = checkInView.ingresarCategoria();
-			
+
 			try {
-				
+
 				categoriaValida = this.validarCategoria(categoria);
-				
+
 			} catch (CategoriaNoValidaException e) {
-				
+
 				e.printStackTrace();
 			}
-			
+
 		}while(!categoriaValida);
-			
+
 		int diasPermanencia = checkInView.ingresarDiasPermanencia();
 		boolean tieneBalcon = checkInView.quiereBalcon();
 		int capacidad = clientesCheckIn.size();
-		
+
 		HabitacionesDao habitacionesDao = HabitacionesDao.getInstance();
 		Habitaciones[] habitaciones = habitacionesDao.getHabitaciones();
-		
+
 		Habitaciones habitacionCheckIn = null;
-		
+
 		ArrayList<Habitaciones> habitacionesTmp = new ArrayList<Habitaciones>();
 		for (int i = 0; i < habitaciones.length; i++) {
-			
+
 			Habitaciones habitacionIterada = habitaciones[i];
 			if(habitacionIterada.getCapacidad() >= capacidad && habitacionIterada.isDisponible()){
-				
+
 				habitacionesTmp.add(habitacionIterada);
-				
+
 				if(Validador.compararCaracteresIgnoreCase(habitacionIterada.getCategoria(), categoria)
 						&& habitacionIterada.isTieneBalcon() == tieneBalcon){
-					
+
 					habitacionCheckIn = habitacionIterada;
 					break;
 				}
 			}
 		}
-		
+
 		ArrayList<String> habitacionesAconsejadas = new ArrayList();
-		
+
 		if(habitacionCheckIn == null && !habitacionesTmp.isEmpty()){
-			
+
 			for (int i = 0; i < habitacionesTmp.size(); i++) {
-				
+
 				Habitaciones habitacionAconsejada = habitacionesTmp.get(i);
 				String habitacionString = "";
-				
+
 				habitacionString += " NUMERO: " + habitacionAconsejada.getNumero() + "\n"
 						+ "CATEGORIA: " + habitacionAconsejada.getCategoria() + "\n"
 						+ "PRECIO: " + habitacionAconsejada.getPrecio().getPrecio();
-				
+
 				habitacionesAconsejadas.add(habitacionString);
 			}
-			
+
 			int numeroHabitacionRequerida;
-			
+
 			boolean numeroHabitacionValido = false;
 			do{
 				numeroHabitacionRequerida = checkInView.ingresarHabitacionRequerida(habitacionesAconsejadas);
-				
+
 				try {
-					
+
 					numeroHabitacionValido = this.validarNumeroHabitacion(habitacionesTmp, numeroHabitacionRequerida);
-				
+
 				} catch (NumeroHabitacionNoValidoException e) {
-				
+
 					e.printStackTrace();
 				}
-				
+
 			}while(!numeroHabitacionValido);
-			
+
 			for (int i = 0; i < habitacionesTmp.size(); i++) {
-				
+
 				Habitaciones habitacionIterada = habitacionesTmp.get(i);
-				
+
 				if(habitacionIterada.getNumero() ==numeroHabitacionRequerida){
-					
+
 					habitacionCheckIn = habitacionIterada;
 					break;
 				}
 			}
 		}	
-		
+
 		String fechaEgresoString = null;
-		
+
 		if(habitacionCheckIn != null){
 			ClientesHabitacionDao clientesHabitacionDao = ClientesHabitacionDao.getInstance();
 			Calendar fechaIngreso = Calendar.getInstance();
 			fechaIngreso.setTime(new Date());
 			Calendar fechaEgreso = clientesHabitacionDao.calcularFechaEgreso(diasPermanencia);
-			
+
 			ClientesHabitacion clientesHabitacionCheckIn = new ClientesHabitacion(
 					this.clienteResponsable, clientesCheckIn, habitacionCheckIn, diasPermanencia, fechaEgreso, fechaIngreso);
-			
+
 			clientesHabitacionDao.getClientesHabitacion().add(clientesHabitacionCheckIn);
-			
+
 			habitacionCheckIn.setDisponible(false);
-			
+
 			ConsumosDao.crearArchivoConsumos(habitacionCheckIn.getNumero());
-			
+
 			try {
-				
+
 				clientesHabitacionDao.actualizarArchivo();
 				habitacionesDao.actualizarArchivo();
-				
+
 			} catch (IOException e) {
-				
+
 				habitacionCheckIn.setDisponible(false);
 				clientesHabitacionDao.getClientesHabitacion().remove(clientesHabitacionCheckIn);
 				checkInView.errorActualizarArchivo();
 			}
-			
+
 			fechaEgresoString = Validador.calendarToString(fechaEgreso, "dd-MM-yyyy");
 		}
-		
+
 		checkInView.mostrarFechaEgreso(fechaEgresoString);
 	}
-	
+
 	private boolean validarNumeroHabitacion(ArrayList<Habitaciones> habitacionesTmp, int numeroHabitacion) throws NumeroHabitacionNoValidoException {
-		
+
 		for (int i = 0; i < habitacionesTmp.size(); i++) {
-			
+
 			if(habitacionesTmp.get(i).getNumero() == numeroHabitacion)
 				return true;
 		}
-		
+
 		throw new NumeroHabitacionNoValidoException(numeroHabitacion);
 	}
 
 	private boolean validarCategoria(char categoria) throws CategoriaNoValidaException{
-		
+
 		for (int i = 0; i < HabitacionesDao.CATEGORIAS_VALIDAS.length; i++) {
-			
+
 			String charTmp = String.valueOf(categoria);
-			
+
 			if(charTmp.equalsIgnoreCase(String.valueOf(HabitacionesDao.CATEGORIAS_VALIDAS[i]))){
-				
+
 				return true;
 			}
 		}
-		
+
 		throw new CategoriaNoValidaException(categoria);
 	}
 }

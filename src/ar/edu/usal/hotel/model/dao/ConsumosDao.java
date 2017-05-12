@@ -60,7 +60,7 @@ public class ConsumosDao implements ICalculoImportes{
 		
 		String numero = Validador.fillString(String.valueOf(numeroHabitacion).trim(), 3, "0", true);
 		
-		File consumosFile = new File("./archivos/Cons"+ numeroHabitacion +".txt");
+		File consumosFile = new File("./archivos/Cons"+ numero +".txt");
 		Scanner consumosScanner;
 		
 		ArrayList<Consumos> consumosHabitacion = new ArrayList();
@@ -69,22 +69,36 @@ public class ConsumosDao implements ICalculoImportes{
 			
 			ProductosDao productosDao = ProductosDao.getInstance();
 			
+			try {
+				consumosFile.createNewFile();
+			
+			} catch (IOException e) {
+
+				System.out.println("Se ha verificado un error al cargar el archivo de consumos.");
+			}
+			
 			consumosScanner = new Scanner(consumosFile);
 			
 			while(consumosScanner.hasNextLine()){
-				
-				String fechaTxt = consumosScanner.next().trim();
-				Calendar fecha = Validador.stringToCalendar(fechaTxt, "yyyyMMdd");
-				
-				String codigoProducto = consumosScanner.next().trim();
-				
-				int cantidad = consumosScanner.nextInt();
-				
-				Productos productoConsumido = productosDao.loadProductoPorCodigo(codigoProducto);
-				
-				Consumos consumo = new Consumos(fecha, productoConsumido, cantidad);
-				
-				consumosHabitacion.add(consumo);
+
+				if(consumosScanner.hasNext()){
+					
+					String fechaTxt = consumosScanner.next().trim();
+					Calendar fecha = Validador.stringToCalendar(fechaTxt, "yyyyMMdd");
+
+					String codigoProducto = consumosScanner.next().trim();
+
+					int cantidad = consumosScanner.nextInt();
+
+					Productos productoConsumido = productosDao.loadProductoPorCodigo(codigoProducto);
+
+					Consumos consumo = new Consumos(fecha, productoConsumido, cantidad);
+
+					consumosHabitacion.add(consumo);
+				}else{
+					
+					break;
+				}
 			}
 
 			this.consumosHabitaciones.put(numeroHabitacion, consumosHabitacion);
@@ -97,7 +111,7 @@ public class ConsumosDao implements ICalculoImportes{
 
 		}catch(FileNotFoundException e) {
 
-			System.out.println("No se ha encontrado el archivo.");
+ 			System.out.println("No se ha encontrado el archivo.");
 			
 		}catch(ProductoInexistenteException e){
 			

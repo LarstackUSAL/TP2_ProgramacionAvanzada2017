@@ -2,6 +2,7 @@ package ar.edu.usal.hotel.model.dao;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.InputMismatchException;
@@ -43,6 +44,14 @@ public class ProductosDao {
 		
 		try {
 			
+			try {
+				productosFile.createNewFile();
+			
+			} catch (IOException e) {
+
+				System.out.println("Se ha verificado un error al cargar el archivo de productos.");
+			}
+			
 			productosScanner = new Scanner(productosFile);
 				
 			while(productosScanner.hasNextLine()){
@@ -83,7 +92,7 @@ public class ProductosDao {
 
 			Productos producto = this.getProductos().get(i);
 
-			if(producto.getCodigo().equals(codigo)){
+			if(producto.getCodigo().trim().equals(codigo) || Validador.fillString(codigo, 3, "0", true).equals(producto.getCodigo().trim())){
 				
 				return producto;
 			}

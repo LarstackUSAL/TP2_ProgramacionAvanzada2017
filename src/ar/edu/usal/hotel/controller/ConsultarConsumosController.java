@@ -55,12 +55,14 @@ public class ConsultarConsumosController {
 				int edad = anioActual - anioNacimiento;
 				
 				String datosCliente =
-						"Nombre: " + cliente.getNombre() + " " + cliente.getApellido() + ", " + edad;
+						"Nombre: " + cliente.getNombre().trim() + " " + cliente.getApellido().trim() + ", " + edad;
 				
 				clientesString.add(datosCliente);
 			}
 			
 			ArrayList<String> consumosString = new ArrayList();
+			
+			double precioTotalGeneral = 0.0;
 			
 			for (int i = 0; i < consumosHabitaciones.size(); i++) {
 				
@@ -75,9 +77,11 @@ public class ConsultarConsumosController {
 						"\n";
 						
 				consumosString.add(datosConsumo);
+				
+				precioTotalGeneral += Double.parseDouble(precioTotal);
 			}
 			
-			consultarConsumosView.mostrarConsumos(clientesString, consumosString);
+			consultarConsumosView.mostrarConsumos(clientesString, consumosString, String.valueOf(precioTotalGeneral));
 
 		} catch (HabitacionSinConsumoException e) {
 		
@@ -103,7 +107,8 @@ public class ConsultarConsumosController {
 			
 			String datosHabitacion = 
 					"Numero habitacion: " + habitacion.getNumero();
-					
+			
+			habitacionesList.add(habitacion);
 			habitacionesString.add(datosHabitacion);
 		}
 		

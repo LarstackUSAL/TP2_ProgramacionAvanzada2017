@@ -43,6 +43,14 @@ public class CuponesDao {
 
 		try {
 
+			try {
+				cuponesFile.createNewFile();
+			
+			} catch (IOException e) {
+
+				System.out.println("Se ha verificado un error al cargar el archivo de cupones.");
+			}
+			
 			cuponesScanner = new Scanner(cuponesFile);
 
 			while(cuponesScanner.hasNextLine()){

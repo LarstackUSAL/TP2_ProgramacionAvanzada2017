@@ -50,6 +50,14 @@ public class HabitacionesDao implements ICalculoImportes{
 		
 		try {
 			
+			try {
+				habitacionesTxt.createNewFile();
+			
+			} catch (IOException e) {
+
+				System.out.println("Se ha verificado un error al cargar el archivo de habitaciones.");
+			}
+			
 			habitacionesScanner = new Scanner(habitacionesTxt);
 			
 			while(habitacionesScanner.hasNextLine()){

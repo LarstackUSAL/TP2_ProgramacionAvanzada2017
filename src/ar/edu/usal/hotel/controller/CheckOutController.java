@@ -32,7 +32,9 @@ public class CheckOutController  implements ICalculoImportes {
 		
 		ClientesHabitacion clientesHabitacion = clientesHabitacionDao.loadClientesHabitacionPorNumero(numeroHabitacion); 
 		
-		this.calcularImporte(clientesHabitacion);
+		double totalImporte = this.calcularImporte(clientesHabitacion);
+		
+		checkOutView.mostrarImporteTotal(String.valueOf(totalImporte));
 	}
 
 	@Override
@@ -96,7 +98,8 @@ public class CheckOutController  implements ICalculoImportes {
 			
 			String datosHabitacion = 
 					"Numero habitacion: " + habitacion.getNumero();
-					
+			
+			habitacionesList.add(habitacion);
 			habitacionesString.add(datosHabitacion);
 		}
 		

@@ -2,6 +2,7 @@ package ar.edu.usal.hotel.model.dao;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -36,6 +37,14 @@ public class PreciosDao {
 		Scanner preciosScanner;
 		
 		try {
+			
+			try {
+				preciosFile.createNewFile();
+			
+			} catch (IOException e) {
+
+				System.out.println("Se ha verificado un error al cargar el archivo de precios.");
+			}
 			
 			preciosScanner = new Scanner(preciosFile);
 			

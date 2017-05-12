@@ -49,6 +49,14 @@ public class ClientesDao {
 		
 		try {
 			
+			try {
+				clientesFile.createNewFile();
+			
+			} catch (IOException e) {
+
+				System.out.println("Se ha verificado un error al cargar el archivo de clientes.");
+			}
+			
 			clientesScanner = new Scanner(clientesFile);
 			CuponesDao cuponesDao = CuponesDao.getInstance();
 				
@@ -105,9 +113,9 @@ public class ClientesDao {
 		FileWriter clientesFile = new FileWriter("./archivos/CLIENTES.txt", true);
 		PrintWriter clientesOut = new PrintWriter(clientesFile);
 		
+		// numeroDocumento	int(8)
 		// nombre 			char(20) 
 		// apellido			char(20)
-		// numeroDocumento	int(8)
 		// fechaNacimiento 	char(8)
 		
 		String numeroDocumento = Validador.fillString(String.valueOf(cliente.getNumeroDocumento()).trim(), 8,"0", true);

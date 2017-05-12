@@ -1,5 +1,5 @@
 1;1;A;true;Tiene jacuzzi;true
-2;2;A;false;Tiene jacuzzi;true
+2;2;A;false;Tiene jacuzzi;false
 3;3;A;true;Tiene jacuzzi;true
 4;4;A;false;Tiene jacuzzi;true
 5;1;A;true;Tiene jacuzzi;true
@@ -100,7 +100,7 @@
 100;4;B;false;Acceso a spa;true
 101;1;C;true;Acceso a piletas;true
 102;2;C;false;Acceso a piletas;true
-103;3;C;true;Acceso a piletas;false
+103;3;C;true;Acceso a piletas;true
 104;4;C;false;Acceso a piletas;true
 105;1;C;true;Acceso a piletas;true
 106;2;C;false;Acceso a piletas;true

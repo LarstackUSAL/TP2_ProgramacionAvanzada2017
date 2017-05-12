@@ -67,7 +67,7 @@ public class RegistrarConsumosController {
 		ClientesHabitacionDao clientesHabitacionDao = ClientesHabitacionDao.getInstance();
 		ArrayList<ClientesHabitacion> clientesHabitacion = clientesHabitacionDao.getClientesHabitacion();
 		ArrayList<String> clientesList = new ArrayList<String>();
-
+		ArrayList<Clientes> clientesMostrarList = new ArrayList<Clientes>();
 		Clientes clienteCargado = null;
 
 		for (int i = 0; i < clientesHabitacion.size(); i++) {
@@ -82,9 +82,15 @@ public class RegistrarConsumosController {
 						"Numero Documento: " + cliente.getNumeroDocumento() + "\n" + 
 								"Nombre: " + cliente.getNombre() + "\n" +
 								"Apellido: " + cliente.getApellido() + "\n"+
+								"Habitacion: " + clientesHabitacionIterada.getHabitacion().getNumero() + "\n"+
 								"\n";
 
-				clientesList.add(datosCliente);
+				if(!clientesMostrarList.contains(cliente)){
+					
+					clientesMostrarList.add(cliente);
+					clientesList.add(datosCliente);	
+				}
+				
 			}
 		}
 

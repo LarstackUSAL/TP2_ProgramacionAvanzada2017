@@ -31,7 +31,8 @@ public class ConsultarHabitacionesController {
 					"Numero habitacion: " + habitacion.getNumero() + "\n" + 
 							"Capacidad maxima: " + habitacion.getCapacidad() + "\n" +
 							"Categoria: " + habitacion.getCategoria() + "\n"+
-							"Precio: " + habitacion.getPrecio() + "\n"+
+							"Precio: " + habitacion.getPrecio().getPrecio() + "\n"+
+							"Comentario: " + habitacion.getComentario() + "\n"+
 							"\n";
 					
 				habitacionesString.add(datosHabitacion);
