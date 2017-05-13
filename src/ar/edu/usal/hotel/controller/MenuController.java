@@ -49,6 +49,7 @@ public class MenuController {
 			case 0:
 
 				salir = true;
+				menuView.salidaDelSistema();
 				break;
 			}
 

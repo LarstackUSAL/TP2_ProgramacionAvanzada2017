@@ -27,4 +27,9 @@ public class MenuView {
 
 		return opcion;
 	}
+
+	public void salidaDelSistema() {
+		
+		System.out.println("GRACIAS POR UTILIZAR EL SERVICIO.");
+	}
 }
