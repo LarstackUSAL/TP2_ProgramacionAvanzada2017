@@ -35,18 +35,20 @@ public class RegistrarConsumosController {
 		if(cliente!=null){
 
 			ClientesHabitacionDao clientesHabitacionDao = ClientesHabitacionDao.getInstance();
+			ClientesHabitacion clientesHabitacion = clientesHabitacionDao.loadClientesHabitacionPorCliente(cliente);
 			Habitaciones habitacionConsumos = clientesHabitacionDao.loadHabitacionDelCliente(cliente);
 
 			boolean seguirConsumiendo = true;
 			do{
 
-				Consumos consumo = this.consumirProducto();
+				Consumos consumo = this.consumirProducto(clientesHabitacion);
 				if(consumo != null){	
-					ConsumosDao consumosDao = ConsumosDao.getInstance(habitacionConsumos.getNumero());
+					ConsumosDao consumosDao = new ConsumosDao();
 
 					try {
-						consumosDao.grabarConsumo(consumo, habitacionConsumos.getNumero());
-
+						
+						consumosDao.grabarConsumo(consumo, habitacionConsumos.getNumero(), clientesHabitacion.getClienteResponsable().getNumeroDocumento());
+						
 					} catch (IOException e) {
 
 						System.out.println("Se ha verificado un error al grabar el consumo en el archivo.");
@@ -56,6 +58,7 @@ public class RegistrarConsumosController {
 
 			}while(seguirConsumiendo);
 
+			registrarConsumosView.registroConsumoSuccess();
 		}
 
 	}
@@ -74,23 +77,25 @@ public class RegistrarConsumosController {
 
 			ClientesHabitacion clientesHabitacionIterada = clientesHabitacion.get(i);
 
-			for (int j = 0; j < clientesHabitacionIterada.getClientes().size(); j++) {
+			if(clientesHabitacionIterada.isEstadiaEnCurso()){
+				for (int j = 0; j < clientesHabitacionIterada.getClientes().size(); j++) {
 
-				Clientes cliente = clientesHabitacionIterada.getClientes().get(j);
+					Clientes cliente = clientesHabitacionIterada.getClientes().get(j);
 
-				String datosCliente = 
-						"Numero Documento: " + cliente.getNumeroDocumento() + "\n" + 
-								"Nombre: " + cliente.getNombre() + "\n" +
-								"Apellido: " + cliente.getApellido() + "\n"+
-								"Habitacion: " + clientesHabitacionIterada.getHabitacion().getNumero() + "\n"+
-								"\n";
+					String datosCliente = 
+							"Numero Documento: " + cliente.getNumeroDocumento() + "\n" + 
+									"Nombre: " + cliente.getNombre() + "\n" +
+									"Apellido: " + cliente.getApellido() + "\n"+
+									"Habitacion: " + clientesHabitacionIterada.getHabitacion().getNumero() + "\n"+
+									"\n";
 
-				if(!clientesMostrarList.contains(cliente)){
-					
-					clientesMostrarList.add(cliente);
-					clientesList.add(datosCliente);	
+					if(!clientesMostrarList.contains(cliente)){
+
+						clientesMostrarList.add(cliente);
+						clientesList.add(datosCliente);	
+					}
+
 				}
-				
 			}
 		}
 
@@ -121,7 +126,7 @@ public class RegistrarConsumosController {
 		return clienteCargado;
 	}
 
-	private Consumos consumirProducto() {
+	private Consumos consumirProducto(ClientesHabitacion clientesHabitacion) {
 
 		ProductosDao productosDao = ProductosDao.getInstance();
 		ArrayList<Productos> productos = productosDao.getProductos();
@@ -163,7 +168,8 @@ public class RegistrarConsumosController {
 					Calendar fecha = Calendar.getInstance();
 					fecha.setTime(new Date());
 
-					return new Consumos(fecha, productoCargado, cantidadConsumida);
+					Consumos consumo = clientesHabitacion.createConsumo(fecha, productoCargado, cantidadConsumida);
+					return consumo;
 
 				} catch (ProductoInexistenteException e) {
 

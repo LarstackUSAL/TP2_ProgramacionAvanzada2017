@@ -32,4 +32,9 @@ public class CheckOutView {
 		System.out.println("El importe a abonar es de " + importeTotal);
 		
 	}
+
+	public void habitacionNoOcupada(int numeroHabitacion) {
+		
+		System.out.println("La habitacion " + numeroHabitacion + " no se encuentra ocupada actualmente.");
+	}
 }

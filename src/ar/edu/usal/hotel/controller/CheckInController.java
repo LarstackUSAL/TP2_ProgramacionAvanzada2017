@@ -58,7 +58,8 @@ public class CheckInController {
 			}
 
 			//El cliente no debe ya estar alojado en el hotel.
-			if(ClientesHabitacionDao.getInstance().loadHabitacionDelCliente(cliente) == null){
+			if(ClientesHabitacionDao.getInstance().loadHabitacionDelCliente(cliente) == null
+					&& !this.clientesCheckIn.contains(cliente)){
 
 				this.clientesCheckIn.add(cliente);
 
@@ -67,12 +68,14 @@ public class CheckInController {
 					this.clienteResponsable = cliente;
 					nuevoCheckIn = false;
 				}
+				
+				agregarOtroCliente = checkInView.agregarOtroPasajero();
 			}else{
 				
-				
+				checkInView.clienteYaAlojado(cliente.getNombre().trim() + " " + cliente.getApellido().trim());
+				agregarOtroCliente = true;
 			}
-			agregarOtroCliente = checkInView.agregarOtroPasajero();
-
+			
 		}while(agregarOtroCliente);
 	}
 
@@ -87,15 +90,28 @@ public class CheckInController {
 		Calendar fechaNacimientoCalendar = cliente.getFechaNacimiento();
 		String fechaNacimiento = Validador.calendarToString(fechaNacimientoCalendar, "dd-MM-yyyy");
 
-		Cupones cuponCliente = cliente.getCupon();
-		String tieneCupon = cuponCliente!=null ? "El cliente tiene cupones de descuento." : 
-			"El cliente no posee cupones de descuento.";
+		ArrayList<Cupones> cuponesCliente = cliente.getCupones();
+		boolean tieneCuponesValidos = false;
+		
+		for (int i = 0; i < cuponesCliente.size(); i++) {
+			
+			Cupones cupon = cuponesCliente.get(i);
+			
+			if(!cupon.isEsUtilizado()){
+				
+				tieneCuponesValidos = true;
+				break;
+			}
+		}
+		
+		String tieneCupones = tieneCuponesValidos ? "El cliente tiene cupones de descuento." :
+			"El cliente no posee cupones de descuento validos.";
 
 		datosCliente = 
 				"Nombre: " + cliente.getNombre() + "\n"
 						+ "Apellido: " + cliente.getApellido() + "\n"
 						+ "Fecha Nacimiento: " + fechaNacimiento + "\n"
-						+ tieneCupon;
+						+ tieneCupones;
 
 		checkInView.mostrarDatosCliente(datosCliente);
 

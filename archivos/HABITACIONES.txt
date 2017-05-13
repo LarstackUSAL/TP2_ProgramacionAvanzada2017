@@ -49,7 +49,7 @@
 49;1;A;true;Tiene jacuzzi;true
 50;2;A;false;Tiene jacuzzi;true
 51;3;B;true;Acceso a spa;true
-52;4;B;false;Acceso a spa;true
+52;4;B;false;Acceso a spa;false
 53;1;B;true;Acceso a spa;true
 54;2;B;false;Acceso a spa;true
 55;3;B;true;Acceso a spa;true

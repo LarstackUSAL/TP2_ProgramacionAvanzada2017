@@ -1,5 +1,6 @@
 package ar.edu.usal.hotel.model.dto;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class Clientes {
@@ -8,8 +9,12 @@ public class Clientes {
 	private String nombre;
 	private String apellido;
 	private Calendar fechaNacimiento;
-	private Cupones cupon;
+	private ArrayList<Cupones> cupones = new ArrayList<Cupones>();
 	
+	public ArrayList<Cupones> getCupones() {
+		return cupones;
+	}
+
 	public Clientes(){}
 	
 	public Clientes(int numeroDocumento, String nombre, String apellido,
@@ -20,17 +25,6 @@ public class Clientes {
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.fechaNacimiento = fechaNacimiento;
-	}
-	
-	public Clientes(int numeroDocumento, String nombre, String apellido,
-			Calendar fechaNacimiento, Cupones cupon) {
-		
-		super();
-		this.setNumeroDocumento(numeroDocumento);
-		this.nombre = nombre;
-		this.apellido = apellido;
-		this.fechaNacimiento = fechaNacimiento;
-		this.cupon = cupon;
 	}
 
 	public String getNombre() {
@@ -52,20 +46,20 @@ public class Clientes {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 
-	public Cupones getCupon() {
-		return cupon;
-	}
-
-	public void setCupon(Cupones cupon) {
-		this.cupon = cupon;
-	}
-
 	public int getNumeroDocumento() {
 		return numeroDocumento;
 	}
 
 	public void setNumeroDocumento(int numeroDocumento) {
 		this.numeroDocumento = numeroDocumento;
+	}
+
+	public Cupones generarCupon(int numeroDocumento, String nombre, String apellido, Calendar fechaCheckIn, Calendar fechaVencimiento, double totalConsumido, double descuentoCalculado, boolean esUtilizado) {
+		
+		Cupones cupon = new Cupones(numeroDocumento, nombre, apellido, fechaCheckIn, totalConsumido, descuentoCalculado, fechaVencimiento, esUtilizado);
+		this.cupones.add(cupon);
+		
+		return cupon;
 	}
 	
 }

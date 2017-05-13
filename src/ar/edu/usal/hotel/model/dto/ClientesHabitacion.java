@@ -10,7 +10,8 @@ public class ClientesHabitacion {
 	private int diasPermanencia;
 	private Calendar fechaEgreso;
 	private Calendar fechaIngreso;
-	private ArrayList<Consumos> consumos;
+	private boolean estadiaEnCurso;
+	private ArrayList<Consumos> consumos = new ArrayList();
 	private Clientes clienteResponsable;
 	
 	public ClientesHabitacion(){}
@@ -26,7 +27,7 @@ public class ClientesHabitacion {
 		this.diasPermanencia = diasPermanencia;
 		this.fechaEgreso = fechaEgreso;
 		this.fechaIngreso = fechaIngreso;
-		this.consumos = new ArrayList();
+		this.setEstadiaEnCurso(true);
 	}
 
 	public ArrayList<Clientes> getClientes() {
@@ -73,16 +74,28 @@ public class ClientesHabitacion {
 		return consumos;
 	}
 
-	public void setConsumos(ArrayList<Consumos> consumos) {
-		this.consumos = consumos;
-	}
-
 	public Clientes getClienteResponsable() {
 		return clienteResponsable;
 	}
 
 	public void setClienteResponsable(Clientes clienteResponsable) {
 		this.clienteResponsable = clienteResponsable;
+	}
+
+	public Consumos createConsumo(Calendar fecha, Productos productoConsumido, int cantidad) {
+		
+		Consumos consumo = new Consumos(fecha, productoConsumido, cantidad); 
+		this.consumos.add(consumo);
+		
+		return consumo;
+	}
+
+	public boolean isEstadiaEnCurso() {
+		return estadiaEnCurso;
+	}
+
+	public void setEstadiaEnCurso(boolean estadiaEnCurso) {
+		this.estadiaEnCurso = estadiaEnCurso;
 	}
 	
 	

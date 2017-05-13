@@ -53,5 +53,10 @@ public class RegistrarConsumosView {
 		
 		return Validador.insertBooleanSyN("Quiere registrar otro consumo? (s/n):");
 	}
+
+	public void registroConsumoSuccess() {
+		
+		System.out.println("Se han registrado los consumos correctamente.");
+	}
 	
 }

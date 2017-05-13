@@ -58,7 +58,6 @@ public class ClientesDao {
 			}
 			
 			clientesScanner = new Scanner(clientesFile);
-			CuponesDao cuponesDao = CuponesDao.getInstance();
 				
 			while(clientesScanner.hasNextLine()){
 				
@@ -72,21 +71,16 @@ public class ClientesDao {
 				
 				Calendar fechaNacimiento = Validador.stringToCalendar(fechaNacimientoTxt, "yyyyMMdd");
 				
-				Cupones cuponCliente = null;
+				Clientes cliente = new Clientes();
+				cliente.setNumeroDocumento(numeroDocumento);
+				cliente.setNombre(nombre);
+				cliente.setApellido(apellido);
+				cliente.setFechaNacimiento(fechaNacimiento);
 				
-				for (int i = 0; i < cuponesDao.getCupones().size(); i++) {
-					
-					Cupones cupon = cuponesDao.getCupones().get(i);
-					
-					if(cupon.getNumeroDocumento() == numeroDocumento){
-						
-						cuponCliente = cupon;
-						break;
-					}
-				}
+				this.clientes.add(cliente);
 				
-				Clientes cliente = new Clientes(numeroDocumento, nombre, apellido, fechaNacimiento, cuponCliente);
-				this.clientes.add(cliente);			
+				CuponesDao cuponesDao = new CuponesDao();
+				cuponesDao.loadCuponesCliente(cliente);
 			}
 			
 			clientesScanner.close();

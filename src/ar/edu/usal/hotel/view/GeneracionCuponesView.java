@@ -4,9 +4,8 @@ public class GeneracionCuponesView {
 
 	public GeneracionCuponesView(){}
 
-	public static void cuponGenerado(String cuponGenerado) {
+	public void cuponGenerado(String cuponGenerado) {
 		
 		System.out.println(cuponGenerado);
-	}
-	
+	}	
 }

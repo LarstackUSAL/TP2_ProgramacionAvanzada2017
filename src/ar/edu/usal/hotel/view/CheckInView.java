@@ -87,4 +87,9 @@ public class CheckInView {
 		System.out.println("Se ha verificado un error al actualizar el archivo de habitaciones.");
 		System.out.println("El check-in no ser&aacute efectuado.");		
 	}
+
+	public void clienteYaAlojado(String cliente) {
+		
+		System.out.println("El cliente " + cliente + " ya se encuentra alojado en el hotel o pendiente de check-in.");
+	}
 }

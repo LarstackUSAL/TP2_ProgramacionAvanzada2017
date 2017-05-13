@@ -34,12 +34,17 @@ public class ConsultarConsumosView {
 
 	public int insertNumeroHabitacion(ArrayList<String> habitacionesList) {
 		
-		System.out.println("HABITACIONES ELEGIDAS POR LOS CLIENTES:");
+		System.out.println("HABITACIONES ACTUALMENTE OCUPADAS EN EL HOTEL:");
 		for (int i = 0; i < habitacionesList.size(); i++) {
 			
 			System.out.println(habitacionesList.get(i));
 		}
 		
 		return Validador.insertInt("Ingresar numero habitacion: ", null, null, false);
+	}
+
+	public void noHayHabitacionesOcupadas() {
+
+		System.out.println("Actualmente no hay habitaciones ocupadas en el hotel.");
 	}
 }

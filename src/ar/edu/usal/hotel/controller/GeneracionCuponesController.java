@@ -16,65 +16,83 @@ import ar.edu.usal.hotel.view.GeneracionCuponesView;
 
 public class GeneracionCuponesController {
 
-	public GeneracionCuponesController(){}
+	GeneracionCuponesView generacionCuponesView;
 	
+	public GeneracionCuponesController(){
+		
+		this.generacionCuponesView = new GeneracionCuponesView();
+	}
+
 	public void generarCupones(String[] args) {
 		int importeRandom = 0;
 		Random rnd = new Random();
-		importeRandom = rnd.nextInt();
-		Calendar fechaActual = Calendar.getInstance();
+		do{
+			importeRandom = rnd.nextInt();
+		}while(importeRandom <= 0);
 		
+		//hardcode prueba LR
+//		importeRandom = 300;
+		
+		Calendar fechaActual = Calendar.getInstance();
+
 		ClientesHabitacionDao clientesHabitacionDao = ClientesHabitacionDao.getInstance();
 		ArrayList<ClientesHabitacion> clientesHabitacionList = clientesHabitacionDao.getClientesHabitacion();
+
+		boolean cuponGeneradoOk = false;
 		
-		for (int i = 0; i < clientesHabitacionList.size(); i++)
-		{
-			
+		for (int i = 0; i < clientesHabitacionList.size(); i++){
+
 			ClientesHabitacion clientesHabitacionIterado = clientesHabitacionList.get(i); 
-			ConsumosDao consumosDao = ConsumosDao.getInstance(clientesHabitacionIterado.getHabitacion().getNumero());
-			
+			ConsumosDao consumosDao = new ConsumosDao();
+
 			double totalConsumos = consumosDao.calcularImporte(clientesHabitacionIterado);
-			
-			if(clientesHabitacionList.get(i).getFechaIngreso().YEAR == fechaActual.YEAR 
-					&& clientesHabitacionList.get(i).getFechaIngreso().MONTH == Integer.parseInt(args[0])
-						&& totalConsumos > importeRandom){
+
+			if(clientesHabitacionList.get(i).getFechaIngreso().get(Calendar.YEAR) == fechaActual.get(Calendar.YEAR) 
+					&& (clientesHabitacionList.get(i).getFechaIngreso().get(Calendar.MONTH)+1) == Integer.parseInt(args[0])
+					&& totalConsumos > importeRandom){
+					
+					Calendar vencimientoCupon = Calendar.getInstance();
+					vencimientoCupon.add(Calendar.MONTH, 12);
+
+					int numeroDocumento = clientesHabitacionIterado.getClienteResponsable().getNumeroDocumento();
+					String nombre = clientesHabitacionIterado.getClienteResponsable().getNombre();
+					String apellido = clientesHabitacionIterado.getClienteResponsable().getApellido();
+					Calendar fechaCheckIn = clientesHabitacionIterado.getFechaIngreso();
+					Calendar fechaVencimiento = vencimientoCupon;
+
+					double descuentoCalculado = totalConsumos * ICalculoImportes.PORCENTAJE_DESCUENTO;
+
+					CuponesDao cuponesDao = new CuponesDao();
+
+					String mensajeCuponGenerado = ""; 
+
+					try {
+
+						Cupones cuponGenerado = clientesHabitacionIterado.getClienteResponsable().generarCupon(numeroDocumento, nombre, apellido,
+								fechaCheckIn, fechaVencimiento, totalConsumos, descuentoCalculado, false);
 						
-				Calendar vencimientoCupon = Calendar.getInstance();
-				vencimientoCupon.add(Calendar.MONTH, 12);
-				
-				int numeroDocumento = clientesHabitacionIterado.getClienteResponsable().getNumeroDocumento();
-				String nombre = clientesHabitacionIterado.getClienteResponsable().getNombre();
-				String apellido = clientesHabitacionIterado.getClienteResponsable().getApellido();
-				Calendar fechaCheckIn = clientesHabitacionIterado.getFechaIngreso();
-				Calendar fechaVencimiento = vencimientoCupon;
-				
-				double descuentoCalculado = totalConsumos * ICalculoImportes.PORCENTAJE_DESCUENTO;
-				
-				CuponesDao cuponesDao = CuponesDao.getInstance();
-				
-				String cuponGenerado = ""; 
+						cuponesDao.grabarCupon(cuponGenerado);
+
+						mensajeCuponGenerado = "SE HA GENERADO EL SIGUIENTE CUPON:\n" 
+								+ "Nombre: " + nombre + " " + apellido + "\n"
+								+ " Fecha check-in: " + Validador.calendarToString(fechaCheckIn, "dd-MM-yyyy") + "\n"
+								+ " Total consumido: " + totalConsumos + "\n"
+								+ " Descuento otorgado: " + descuentoCalculado + "\n"; 
 						
-				try {
-					
-					cuponesDao.grabarCupon(numeroDocumento, nombre, apellido, fechaCheckIn, totalConsumos, 
-							descuentoCalculado, fechaVencimiento);
+						cuponGeneradoOk = true;
+						
+					} catch (IOException e) {
+
+						mensajeCuponGenerado = "Se ha verificado un error al generar un cupon.";
+					}
+
+					generacionCuponesView.cuponGenerado(mensajeCuponGenerado);
 				
-					cuponGenerado = "SE HA GENERADO EL SIGUIENTE CUPON:\n" 
-							+ "Nombre: " + nombre + " " + apellido + "\n"
-							+ " Fecha check-in: " + Validador.calendarToString(fechaCheckIn, "dd-MM-yyyy") + "\n"
-							+ " Total consumido: " + totalConsumos + "\n"
-							+ " Descuento otorgado: " + descuentoCalculado + "\n"; 
-					
-				} catch (IOException e) {
-					
-					cuponGenerado = "Se ha verificado un error al generar un cupon.";
-				}
-				
-				GeneracionCuponesView.cuponGenerado(cuponGenerado);
 			}
 		}
-		
+
+		if(!cuponGeneradoOk) generacionCuponesView.cuponGenerado("No se han generado cupones.");
 	}
 
-	
+
 }

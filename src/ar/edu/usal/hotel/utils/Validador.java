@@ -25,7 +25,7 @@ public class Validador {
 
 	public static void insertarEnArray(Object[] arr, Object obj){
 
-		// Busco la primera posicion vacia donde setear el nuevo vehiculo
+		// Busco la primera posicion vacia donde setear el nuevo elemento.
 		for(int i=0; i<arr.length; i++) {
 
 			if(arr[i] == null) {
