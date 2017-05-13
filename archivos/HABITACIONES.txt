@@ -1,5 +1,5 @@
 1;1;A;true;Tiene jacuzzi;true
-2;2;A;false;Tiene jacuzzi;false
+2;2;A;false;Tiene jacuzzi;true
 3;3;A;true;Tiene jacuzzi;true
 4;4;A;false;Tiene jacuzzi;true
 5;1;A;true;Tiene jacuzzi;true
