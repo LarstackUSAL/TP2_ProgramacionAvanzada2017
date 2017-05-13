@@ -47,7 +47,8 @@ public class RegistrarConsumosController {
 
 					try {
 						
-						consumosDao.grabarConsumo(consumo, habitacionConsumos.getNumero(), clientesHabitacion.getClienteResponsable().getNumeroDocumento());
+						consumosDao.grabarConsumo(consumo, habitacionConsumos.getNumero(),
+								clientesHabitacion.getClienteResponsable().getNumeroDocumento(), clientesHabitacion.getIdEstadia());
 						
 					} catch (IOException e) {
 

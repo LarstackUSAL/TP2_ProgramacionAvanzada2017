@@ -3,8 +3,11 @@ package ar.edu.usal.hotel.model.dto;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class ClientesHabitacion {
+import ar.edu.usal.hotel.model.dao.ClientesHabitacionDao;
 
+public class ClientesHabitacion {
+	
+	private int idEstadia;
 	private ArrayList<Clientes> clientes;
 	private Habitaciones habitacion;
 	private int diasPermanencia;
@@ -18,9 +21,10 @@ public class ClientesHabitacion {
 	
 	public ClientesHabitacion(Clientes clienteResponsable, ArrayList<Clientes> clientes,
 			Habitaciones habitacion, int diasPermanencia,
-			Calendar fechaEgreso, Calendar fechaIngreso) {
+			Calendar fechaEgreso, Calendar fechaIngreso, int idEstadia) {
 		
 		super();
+		this.idEstadia = idEstadia;
 		this.setClienteResponsable(clienteResponsable);
 		this.clientes = clientes;
 		this.habitacion = habitacion;
@@ -97,6 +101,12 @@ public class ClientesHabitacion {
 	public void setEstadiaEnCurso(boolean estadiaEnCurso) {
 		this.estadiaEnCurso = estadiaEnCurso;
 	}
-	
-	
+
+	public int getIdEstadia() {
+		return idEstadia;
+	}
+
+	public void setIdEstadia(int idEstadia) {
+		this.idEstadia = idEstadia;
+	}
 }

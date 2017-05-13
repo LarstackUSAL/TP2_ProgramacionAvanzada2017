@@ -100,20 +100,20 @@ public class Validador {
 			datosOK = true;
 			System.out.println();
 			System.out.println(mensaje);
-			
+
 			String mensajeError = "VALOR INGRESADO NO VALIDO.";
 			if(s.hasNextLine()) {
 
 				stringValidada = s.nextLine();
-				
+
 				if(stringValidada.isEmpty())
 					datosOK = false;				
 				else if(length != null && stringValidada.length()>length){
-					
+
 					datosOK = false;
 					mensajeError = "La longitud MAX es " + length;
 				}			
-				
+
 			}
 
 			if(!datosOK) {
@@ -406,7 +406,7 @@ public class Validador {
 		return charValidado;
 	}
 
-	
+
 	public static void insertHora(String mensaje, Calendar fechaLlegada) {
 
 		int horaTmp = insertInt("Ingresar Hora (0-23): ", 0, 24, false);
@@ -451,58 +451,65 @@ public class Validador {
 		// "dd/MM/yyyy"
 		// "dd-MM-yyyy"
 		// "yyyyMMdd"	
-		
+
 		Date fechaDate = fecha.getTime();
 		DateFormat formatter = new SimpleDateFormat(formatoFecha);
 		return formatter.format(fechaDate);
 	}
-	
+
 	public static Calendar stringToCalendar(String fecha, String formatoFecha) {
-		
+
 		// "dd/MM/yyyy"
 		// "dd-MM-yyyy"
 		// "yyyyMMdd"	
-		
+
 		Calendar calendar = Calendar.getInstance();
-		
+
 		try {
 
 			SimpleDateFormat format = new SimpleDateFormat(formatoFecha);
 			Date date;
 			date = format.parse(fecha);
 			calendar.setTime(date);
-			
+
 		} catch (ParseException e) {
-			
+
 			System.out.println("Se ha verificado un error con el parsing de la fecha.");
 		}
-		
+
 		return calendar;		
 	}
-	
+
 	public static String fillString(String s, int longitudFinalString, String filler, boolean izquierda){
-					
+
 		if(s.length() < longitudFinalString){
-			
+
 			int espacios = (longitudFinalString-s.length());
-				
+
 			for (int i = 0; i < espacios; i++) {
-				
+
 				if(izquierda){
-				
+
 					s = filler + s;
 				}else{
-				
+
 					s += filler;
 				}
 			}
 		}
-		
+
 		return s;
 	}
-	
+
 	public static boolean compararCaracteresIgnoreCase(char a, char b){
-		
+
 		return String.valueOf(a).equalsIgnoreCase(String.valueOf(b));
+	}
+
+	public static boolean validarMes(int mes) {
+
+		if(mes > 0 && mes <= 12)
+			return true;
+		else return false;
 	}
 }

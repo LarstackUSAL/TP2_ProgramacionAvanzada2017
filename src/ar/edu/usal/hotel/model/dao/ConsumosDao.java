@@ -47,9 +47,12 @@ public class ConsumosDao implements ICalculoImportes{
 
 				if(consumosScanner.hasNext()){
 
+					int idEstadia = consumosScanner.nextInt();
 					int numeroDocumento = consumosScanner.nextInt();
 
-					if(numeroDocumento == clientesHabitacion.getClienteResponsable().getNumeroDocumento()){
+					if(numeroDocumento == clientesHabitacion.getClienteResponsable().getNumeroDocumento()
+							&& idEstadia == clientesHabitacion.getIdEstadia()){
+						
 						String fechaTxt = consumosScanner.next().trim();
 						Calendar fecha = Validador.stringToCalendar(fechaTxt, "yyyyMMdd");
 
@@ -98,7 +101,7 @@ public class ConsumosDao implements ICalculoImportes{
 		}
 	}
 
-	public void grabarConsumo(Consumos consumo, int numeroHabitacion, int numeroDocumento) throws IOException {
+	public void grabarConsumo(Consumos consumo, int numeroHabitacion, int numeroDocumento, int idEstadia) throws IOException {
 
 		String numero = Validador.fillString(String.valueOf(numeroHabitacion).trim(), 3, "0", true);
 		FileWriter consumosFile = new FileWriter("./archivos/Cons"+ numero +".txt", true);
@@ -108,8 +111,9 @@ public class ConsumosDao implements ICalculoImportes{
 		String fecha = Validador.calendarToString(consumo.getFecha(), "yyyyMMdd");
 		String codigoProducto = consumo.getProducto().getCodigo().trim();
 		String cantidad = String.valueOf(consumo.getCantidad());
+		String idEstadiaString = String.valueOf(idEstadia);
 
-		consumosOut.println(numeroDocumentoString + "\t" + fecha + "\t" + codigoProducto + "\t" + cantidad);
+		consumosOut.println(idEstadiaString + "\t" +numeroDocumentoString + "\t" + fecha + "\t" + codigoProducto + "\t" + cantidad);
 
 		consumosOut.close();
 	}

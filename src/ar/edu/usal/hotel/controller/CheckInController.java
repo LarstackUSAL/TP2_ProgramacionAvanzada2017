@@ -57,7 +57,7 @@ public class CheckInController {
 				cliente = e.registrarCliente(checkInView);
 			}
 
-			//El cliente no debe ya estar alojado en el hotel.
+			//El cliente no debe ya estar alojado en el hotel o en proceso de check-in.
 			if(ClientesHabitacionDao.getInstance().loadHabitacionDelCliente(cliente) == null
 					&& !this.clientesCheckIn.contains(cliente)){
 
@@ -220,7 +220,7 @@ public class CheckInController {
 			Calendar fechaEgreso = clientesHabitacionDao.calcularFechaEgreso(diasPermanencia);
 
 			ClientesHabitacion clientesHabitacionCheckIn = new ClientesHabitacion(
-					this.clienteResponsable, clientesCheckIn, habitacionCheckIn, diasPermanencia, fechaEgreso, fechaIngreso);
+					this.clienteResponsable, clientesCheckIn, habitacionCheckIn, diasPermanencia, fechaEgreso, fechaIngreso, ClientesHabitacionDao.getNextIdEstadia());
 
 			clientesHabitacionDao.getClientesHabitacion().add(clientesHabitacionCheckIn);
 

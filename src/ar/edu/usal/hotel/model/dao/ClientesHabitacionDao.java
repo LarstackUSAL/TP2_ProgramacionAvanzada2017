@@ -18,6 +18,8 @@ import ar.edu.usal.hotel.utils.Validador;
 
 public class ClientesHabitacionDao {
 
+	private static int nextIdEstadia = 1;
+	
 	private static ClientesHabitacionDao clientesHabitacionInstance = null;
 
 	private ArrayList<ClientesHabitacion> clientesHabitacion;
@@ -32,9 +34,10 @@ public class ClientesHabitacionDao {
 
 		if(clientesHabitacionInstance==null){
 
+			loadNextId();
 			clientesHabitacionInstance = new ClientesHabitacionDao();
 		}
-
+		
 		return clientesHabitacionInstance;
 	}
 
@@ -103,6 +106,7 @@ public class ClientesHabitacionDao {
 		{
 			ClientesHabitacion estadia = this.clientesHabitacion.get(i);
 
+			String idEstadia = String.valueOf(estadia.getIdEstadia());
 			String numeroHabitacion = String.valueOf(estadia.getHabitacion().getNumero());
 			String fechaCheckIn = Validador.calendarToString(estadia.getFechaIngreso(), "yyyyMMdd");
 			String fechaCheckOut = Validador.calendarToString(estadia.getFechaEgreso(), "yyyyMMdd");
@@ -132,7 +136,8 @@ public class ClientesHabitacionDao {
 			}
 
 			estadiasOut.println(
-					numeroHabitacion + ";" +
+							idEstadia + ";" +
+							numeroHabitacion + ";" +
 							fechaCheckIn + ";" +
 							fechaCheckOut + ";" +
 							diasPermanencia + ";" +
@@ -143,6 +148,14 @@ public class ClientesHabitacionDao {
 
 		estadiasOut.close();
 		estadiasFile.close();
+		
+		//Se actualiza el archivo de id.
+		FileWriter idEstadiaFile = new FileWriter("./archivos/ID_ESTADIA.txt");
+		PrintWriter idEstadiaOut = new PrintWriter(idEstadiaFile);
+		
+		idEstadiaOut.println(nextIdEstadia);
+		idEstadiaOut.close();
+		idEstadiaFile.close();
 	}
 
 	private void loadHabitacionClientes() {
@@ -169,16 +182,17 @@ public class ClientesHabitacionDao {
 
 				ClientesHabitacion estadia = new ClientesHabitacion();
 
-				estadia.setHabitacion(HabitacionesDao.getInstance().loadHabitacionPorNumero(Integer.valueOf(estadiaArray[0])));
-				estadia.setFechaIngreso(Validador.stringToCalendar(estadiaArray[1], "yyyyMMdd"));
-				estadia.setFechaEgreso(Validador.stringToCalendar(estadiaArray[2], "yyyyMMdd"));
-				estadia.setDiasPermanencia(Integer.valueOf(estadiaArray[3]));
-				estadia.setEstadiaEnCurso(Boolean.valueOf(estadiaArray[4]));
-				estadia.setClienteResponsable(ClientesDao.getInstance().loadClientePorNumeroDocumento(Integer.valueOf(estadiaArray[5])));
+				estadia.setIdEstadia(Integer.valueOf(estadiaArray[0]));
+				estadia.setHabitacion(HabitacionesDao.getInstance().loadHabitacionPorNumero(Integer.valueOf(estadiaArray[1])));
+				estadia.setFechaIngreso(Validador.stringToCalendar(estadiaArray[2], "yyyyMMdd"));
+				estadia.setFechaEgreso(Validador.stringToCalendar(estadiaArray[3], "yyyyMMdd"));
+				estadia.setDiasPermanencia(Integer.valueOf(estadiaArray[4]));
+				estadia.setEstadiaEnCurso(Boolean.valueOf(estadiaArray[5]));
+				estadia.setClienteResponsable(ClientesDao.getInstance().loadClientePorNumeroDocumento(Integer.valueOf(estadiaArray[6])));
 
 				ArrayList<Clientes> clientes = new ArrayList<Clientes>(); 
 
-				for (int i = 5; i < estadiaArray.length ; i++) {
+				for (int i = 6; i < estadiaArray.length ; i++) {
 
 					clientes.add(ClientesDao.getInstance().loadClientePorNumeroDocumento(Integer.valueOf(estadiaArray[i])));
 				}
@@ -190,7 +204,7 @@ public class ClientesHabitacionDao {
 
 				this.clientesHabitacion.add(estadia);
 			}
-
+			
 			estadiasScanner.close();
 
 		}catch(InputMismatchException e){
@@ -217,7 +231,8 @@ public class ClientesHabitacionDao {
 
 				Clientes clienteIterado = clientesHabitacion.getClientes().get(j);
 
-				if(clienteIterado.getNumeroDocumento() == cliente.getNumeroDocumento()){
+				if(clienteIterado.getNumeroDocumento() == cliente.getNumeroDocumento()
+						&& clientesHabitacion.isEstadiaEnCurso()){
 
 					return clientesHabitacion;
 				}
@@ -243,4 +258,49 @@ public class ClientesHabitacionDao {
 
 		return clientesHabitacionList;
 	}
+	
+	private static void loadNextId() {
+		
+		File idEstadiasFile = new File("./archivos/ID_ESTADIA.txt");
+		Scanner estadiasScanner;
+
+		try {
+
+			try {
+				idEstadiasFile.createNewFile();
+
+			} catch (IOException e) {
+
+				System.out.println("Se ha verificado un error al cargar el archivo de id.");
+			}
+
+			estadiasScanner = new Scanner(idEstadiasFile);
+
+			nextIdEstadia = estadiasScanner.nextInt();
+			
+			estadiasScanner.close();
+
+		}catch(InputMismatchException e){
+
+			System.out.println("Se ha encontrado un tipo de dato insesperado.");
+
+		}catch(FileNotFoundException e) {
+
+			System.out.println("No se ha encontrado el archivo.");
+
+		}catch(Exception e){
+
+			e.printStackTrace();
+		}
+
+	}
+	
+	public static int getNextIdEstadia() {
+
+		int idReturn = nextIdEstadia;
+		nextIdEstadia++;
+
+		return idReturn;
+	}
+	
 }

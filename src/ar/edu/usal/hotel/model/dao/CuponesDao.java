@@ -23,6 +23,7 @@ public class CuponesDao {
 		File cuponesFile = new File("./archivos/CUPONES.txt");
 		Scanner cuponesScanner;
 
+		boolean cuponesCargados = false;
 		try {
 
 			try {
@@ -60,11 +61,10 @@ public class CuponesDao {
 
 					cliente.generarCupon(numeroDocumento, nombre, apellido, fechaCheckIn, fechaVencimiento, totalConsumido, descuentoCalculado, esUtilizado);
 
-					cuponesScanner.close();
-					return true;
+					cuponesCargados = true;
 				}
 			}
-
+			cuponesScanner.close();
 		}catch(InputMismatchException e){
 
 			System.out.println("Se ha encontrado un tipo de dato insesperado.");
@@ -74,7 +74,7 @@ public class CuponesDao {
 			System.out.println("No se ha encontrado el archivo.");
 		}
 
-		return false;
+		return cuponesCargados;
 	}
 
 	public void grabarCupon(Cupones cupon) throws IOException {

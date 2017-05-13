@@ -40,55 +40,59 @@ public class ConsultarConsumosController {
 			for (int i = 0; i < clientesHabitacionList.size(); i++){
 
 				ClientesHabitacion clientesHabitacion = clientesHabitacionList.get(i);
-				ArrayList<Clientes> clientesList = clientesHabitacion.getClientes();
+				
+				if(clientesHabitacion.isEstadiaEnCurso()){
+					
+					ArrayList<Clientes> clientesList = clientesHabitacion.getClientes();
 
-				ArrayList<String> clientesString = new ArrayList<String>();
+					ArrayList<String> clientesString = new ArrayList<String>();
 
-				for (int j = 0; j < clientesList.size(); j++) {
+					for (int j = 0; j < clientesList.size(); j++) {
 
-					Clientes cliente = clientesList.get(j);
+						Clientes cliente = clientesList.get(j);
 
-					Calendar fechaActual = Calendar.getInstance();
-					fechaActual.setTime(new Date());
+						Calendar fechaActual = Calendar.getInstance();
+						fechaActual.setTime(new Date());
 
-					int anioActual = fechaActual.get(Calendar.YEAR);
-					int anioNacimiento = cliente.getFechaNacimiento().get(Calendar.YEAR);
-					int edad = anioActual - anioNacimiento;
+						int anioActual = fechaActual.get(Calendar.YEAR);
+						int anioNacimiento = cliente.getFechaNacimiento().get(Calendar.YEAR);
+						int edad = anioActual - anioNacimiento;
 
-					String datosCliente =
-							"Nombre: " + cliente.getNombre().trim() + " " + cliente.getApellido().trim() + ", " + edad;
+						String datosCliente =
+								"Nombre: " + cliente.getNombre().trim() + " " + cliente.getApellido().trim() + ", " + edad;
 
-					clientesString.add(datosCliente);
+						clientesString.add(datosCliente);
+					}
+
+					ArrayList<String> consumosString = new ArrayList();
+
+					double precioTotalGeneral = 0.0;
+
+					ArrayList<Consumos> consumosHabitaciones = clientesHabitacion.getConsumos();
+
+					for (int j = 0; j < consumosHabitaciones.size(); j++) {
+
+						Consumos consumo = consumosHabitaciones.get(j);
+
+						String precioTotal = String.valueOf(((consumo.getProducto().getPrecio())*consumo.getCantidad()));
+						String datosConsumo =
+								"Fecha: " + Validador.calendarToString(consumo.getFecha(), "dd-MM-yyyy") + "\n" + 
+										"Producto: " + consumo.getProducto().getDescripcion() + "\n" +
+										"Cantidad: " + consumo.getCantidad() + "\n" +		
+										"Precio unitario: " + consumo.getProducto().getPrecio() + "\n"+
+										"Precio total: " + precioTotal + "\n"+
+										"\n";
+
+						consumosString.add(datosConsumo);
+
+						precioTotalGeneral += Double.parseDouble(precioTotal);
+					}
+
+					consultarConsumosView.mostrarConsumos(clientesString, consumosString, String.valueOf(precioTotalGeneral));
 				}
-
-				ArrayList<String> consumosString = new ArrayList();
-
-				double precioTotalGeneral = 0.0;
-
-				ArrayList<Consumos> consumosHabitaciones = clientesHabitacion.getConsumos();
-
-				for (int j = 0; j < consumosHabitaciones.size(); j++) {
-
-					Consumos consumo = consumosHabitaciones.get(j);
-
-					String precioTotal = String.valueOf(((consumo.getProducto().getPrecio())*consumo.getCantidad()));
-					String datosConsumo =
-							"Fecha: " + Validador.calendarToString(consumo.getFecha(), "dd-MM-yyyy") + "\n" + 
-									"Producto: " + consumo.getProducto().getDescripcion() + "\n" +
-									"Cantidad: " + consumo.getCantidad() + "\n" +		
-									"Precio unitario: " + consumo.getProducto().getPrecio() + "\n"+
-									"Precio total: " + precioTotal + "\n"+
-									"\n";
-
-					consumosString.add(datosConsumo);
-
-					precioTotalGeneral += Double.parseDouble(precioTotal);
-				}
-
-				consultarConsumosView.mostrarConsumos(clientesString, consumosString, String.valueOf(precioTotalGeneral));
 			}
 		}else{
-			
+
 			consultarConsumosView.noHayHabitacionesOcupadas();
 		}
 	}

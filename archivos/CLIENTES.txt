@@ -3,7 +3,6 @@
 15056331ZURITA              MARCOS              19650731
 28745123PEREZ               JUAN                19981205
 24952384GOMEZ               ROBERTO             19759813
-12345678princesa            leia                19890502
-15975346darth               vader               19550312
-78451239satoshi             nakamoto            19740508
-98765432mariano             moreno              20020307
+12345678princesa            leia                19890405
+14725836darth               vader               19740907
+15935748satoshi             nakamoto            19840904
